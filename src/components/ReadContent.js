@@ -2,7 +2,6 @@ import { Component } from 'react';
 
 class ReadContent extends Component{
     render(){
-      //console.log("ReadContent")
       return(
         <article>
             <h2>{this.props.title}</h2>
