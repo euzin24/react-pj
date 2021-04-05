@@ -7,7 +7,7 @@ import ReadContent from './components/ReadContent';
 import CreateContent from './components/CreateContent';
 import UpdateContent from './components/UpdateContent';
 
-class App1 extends Component{
+class App extends Component{
   constructor(props){ //UI 내부적으로 사용되는 데이터 states
     super(props);
     this.max_content_id=3;
@@ -81,9 +81,9 @@ class App1 extends Component{
   }
   
   render(){
-    console.log("App1 is rendered");
+    console.log("App1 rendered");
     return(
-      <div>
+      <div className="App1">
         <Subject 
           title={this.state.subject.title} 
           sub={this.state.subject.sub}
@@ -132,4 +132,4 @@ class App1 extends Component{
   }
 }
 
-export default App1;
+export default App;

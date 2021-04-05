@@ -15,7 +15,7 @@ class TOC extends Component{
       return true;
     }
     render(){
-      //console.log("TOC render")
+      console.log("TOC render")
       var lists=[];
       var data=this.props.data;
       var i=0;

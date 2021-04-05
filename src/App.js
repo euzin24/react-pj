@@ -12,7 +12,7 @@ class App extends Component{
   }
 
   showContent(){
-    var _index="Hello React!";
+    var _index="Index";
     var _app=null;
     var _id=this.state.id;
     if (_id===1){
