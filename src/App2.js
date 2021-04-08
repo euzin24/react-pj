@@ -27,6 +27,7 @@ function App(){
           <hr></hr>
           <Route path='/' component={Home} exact/>
           <Route path='/about' component={About}/>
+          <i>근데 라우팅하는 컴포넌트로 props는 어케 넘기죠???????</i>
         </div>
         
     </div>

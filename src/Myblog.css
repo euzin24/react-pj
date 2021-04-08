@@ -20,8 +20,9 @@ html,body{
   padding-bottom: 5vh;
 }
 
-ul.nav-cat-list{
+ul{
   list-style: none;
+  padding-left:0;
 }li{
   padding:2mm;
 }
@@ -37,7 +38,11 @@ ul.nav-cat-list{
 .content{
   margin-left: 5em;
   margin-right: 5em;
-  margin-top: 10em;
-  margin-bottom: 10em;
+  margin-top: 5em;
+  margin-bottom: 5em;
   background-color: cornsilk;
+}
+
+.li-btn{
+  padding-left: 10em;
 }
