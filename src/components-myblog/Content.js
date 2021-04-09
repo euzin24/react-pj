@@ -8,7 +8,7 @@ class Content extends Component{
     constructor(props){
         super(props);
         this.state={
-            conid:null,
+            selected_content:null,
             categories:this.props.data,
             articles:[
                 {id:1, cat:1, title:'제목1', content:'내용1'},
@@ -27,10 +27,12 @@ class Content extends Component{
             _content=<ReadList 
                         num={_catid}
                         mode={_mode}
-                        cat_data={this.state.categories}
+                        cat_data={this.props.data}
                         data={_data}
                         showContent={function(_id){
-                            this.state.conid=_id;
+                            this.setState({
+                                selected_content:_id
+                            });
                             this.props.showContent();
                         }.bind(this)}></ReadList>;
         }else if (_mode==='set-cats'){
@@ -39,22 +41,17 @@ class Content extends Component{
                         mode={_mode}
                         data={_cats}
                         max_category_id={this.props.max_category_id}
-                        goBack={function(){
-                            this.props.onChange();
-                        }.bind(this)}
                         update={function(_content, _max){
-                            console.log(_content, _max);
-                            //this.props.updateCategory(_content, _max);
-                        }.bind(this)}
-                        update={function(){
-                            alert("함수명이 같아도 될까? 되네!");
+                            alert("updated!");
+                            this.props.onChange();
+                            this.props.updateCategory(_content, _max);
                         }.bind(this)}
                         ></SetCategories>
         }else if (_mode==='read-contents'){
             _content=<ReadContent
                         cat_data={this.state.categories}
                         article={this.state.articles}
-                        id={this.state.conid}></ReadContent>
+                        id={this.state.selected_content}></ReadContent>
         }
         return _content;
     }

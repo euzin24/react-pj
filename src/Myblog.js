@@ -6,13 +6,13 @@ import Content from './components-myblog/Content';
 class Myblog extends Component{
     constructor(props){
         super(props);
-        this.max_category_id=2;
+        this.max_category_id=3;
         this.state={
             mode:'read',
             selected_category: 0,
             profile:{name:'Euzin24', desc:'개발 블로그'},
             categories:[{id:0, title:'전체'}, {id:1, title:'카테고리1'}, 
-            {id:2, title:'카테고리2'}]
+            {id:2, title:'카테고리2'}, {id:3, title:"카테고리3"}]
         }
     }
 
@@ -50,14 +50,11 @@ class Myblog extends Component{
                         });
                     }.bind(this)}
                     updateCategory={function(_content, _max){
-                        // _content=모든 변경사항이 적용된 SetCategories의 state categories
                         this.max_category_id=_max;
+                        console.log(this.max_category_id);
                         this.setState({
                             categories:_content
                         });
-                    }.bind(this)}
-                    updateCategory={function(_title){
-                        
                     }.bind(this)}
                     ></Content>
             </div>

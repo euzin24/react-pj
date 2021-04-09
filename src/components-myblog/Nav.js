@@ -8,8 +8,7 @@ class Nav extends Component{
         for (let _data of this.props.data){
             _list.push(
                 <li key={_data.id}>
-                    <span onClick={function(_id, e){
-                        // e.preventDefault();
+                    <span onClick={function(_id){
                         this.props.showCategory(_data.id);
                     }.bind(this)}>
                         {_data.title}

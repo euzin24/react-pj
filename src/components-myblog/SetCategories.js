@@ -33,12 +33,11 @@ class SetCategories extends Component{
         else if (this.state.flag===1){
             _content=
             <form
-                action="/create_category"
                 method="post"
                 onSubmit={function(e){
                     e.preventDefault();
                     this.setState({flag:0});
-                    this.max_category_id=this.max_category_id+1
+                    this.max_category_id=this.max_category_id+1;
                     var _id=this.max_category_id;
                     var _new=this.state.categories.concat(
                         {id:_id, title:e.target.category.value});
@@ -64,8 +63,7 @@ class SetCategories extends Component{
                 </ul>
                 <button onClick={function(e){
                     e.preventDefault();
-                    this.props.goBack();
-                    //this.props.update();
+                    this.props.update(this.state.categories, this.max_category_id);
                 }.bind(this)}>적용</button>
                 <button onClick={function(e){
                     e.preventDefault();
