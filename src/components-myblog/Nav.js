@@ -1,10 +1,9 @@
 import '../Myblog.css';
 import { Component } from 'react';
 import logo from '../logo.svg';
-import { findAllInRenderedTree } from 'react-dom/test-utils';
 
 class Nav extends Component{
-    render(){
+    showList(){
         var _list=[];
         for (let _data of this.props.data){
             _list.push(
@@ -17,6 +16,10 @@ class Nav extends Component{
                     </span>
                 </li>)
         }
+        return _list;
+    }
+
+    render(){
         return(
             <div className="nav-bar">
                 <header className="header">
@@ -27,12 +30,12 @@ class Nav extends Component{
                 <nav>
                     <h4>Categories</h4>
                     <ul className="nav-cat-list">
-                        {_list}
+                        {this.showList()}
                     </ul>
                     <button className="nav-btn" onClick={function(e){
                         e.preventDefault();
                         this.props.onChange();
-                    }.bind(this)}>편집</button>
+                    }.bind(this)}>카테고리 편집</button>
                 </nav>
             </div>
         )

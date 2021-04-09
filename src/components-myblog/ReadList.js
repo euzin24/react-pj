@@ -18,7 +18,8 @@ class ReadList extends Component{
                         <li key={value.id} onClick={function(){
                             this.props.showContent(value.id);
                         }.bind(this)}>
-                            <h2>{value.title}</h2> <span>{this.props.cat_data[value.cat].title}</span>
+                            <span>{this.props.cat_data[value.cat].title}</span>
+                            <h2>{value.title}</h2>
                             <p>{value.content}</p>
                             <hr></hr>
                         </li>
@@ -32,7 +33,8 @@ class ReadList extends Component{
                             <li key={value.id} onClick={function(){
                                 this.props.showContent(value.id);
                             }.bind(this)}>
-                                <h2>{value.title}</h2> <span>{this.props.cat_data[value.cat].title}</span>
+                                <span>{this.props.cat_data[value.cat].title}</span>
+                                <h2>{value.title}</h2> 
                                 <p>{value.content}</p>
                                 <hr></hr>
                             </li>

@@ -38,10 +38,18 @@ class Content extends Component{
             _content=<SetCategories 
                         mode={_mode}
                         data={_cats}
+                        max_category_id={this.props.max_category_id}
                         goBack={function(){
                             this.props.onChange();
-                        }.bind(this)}>
-                        {/* changeState 함수 만들기  */} </SetCategories>
+                        }.bind(this)}
+                        update={function(_content, _max){
+                            console.log(_content, _max);
+                            //this.props.updateCategory(_content, _max);
+                        }.bind(this)}
+                        update={function(){
+                            alert("함수명이 같아도 될까? 되네!");
+                        }.bind(this)}
+                        ></SetCategories>
         }else if (_mode==='read-contents'){
             _content=<ReadContent
                         cat_data={this.state.categories}

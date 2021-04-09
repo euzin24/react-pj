@@ -6,11 +6,12 @@ import Content from './components-myblog/Content';
 class Myblog extends Component{
     constructor(props){
         super(props);
+        this.max_category_id=2;
         this.state={
             mode:'read',
-            category_num: 0,
+            selected_category: 0,
             profile:{name:'Euzin24', desc:'개발 블로그'},
-            categories:[{id:0, title:'전체'}, {id:1, title:'!카테고리1'}, 
+            categories:[{id:0, title:'전체'}, {id:1, title:'카테고리1'}, 
             {id:2, title:'카테고리2'}]
         }
     }
@@ -30,13 +31,14 @@ class Myblog extends Component{
                     showCategory={function(_id){
                         this.setState({
                             mode:'read',
-                            category_num: _id
+                            selected_category: _id
                         });
                     }.bind(this)}></Nav>
                 <Content 
                     mode={this.state.mode}
-                    num={this.state.category_num}
+                    num={this.state.selected_category}
                     data={this.state.categories}
+                    max_category_id={this.max_category_id}
                     onChange={function(){
                         this.setState({
                             mode:'read'
@@ -46,6 +48,16 @@ class Myblog extends Component{
                         this.setState({
                             mode:'read-contents'
                         });
+                    }.bind(this)}
+                    updateCategory={function(_content, _max){
+                        // _content=모든 변경사항이 적용된 SetCategories의 state categories
+                        this.max_category_id=_max;
+                        this.setState({
+                            categories:_content
+                        });
+                    }.bind(this)}
+                    updateCategory={function(_title){
+                        
                     }.bind(this)}
                     ></Content>
             </div>
