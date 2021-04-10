@@ -6,56 +6,103 @@ class SetCategories extends Component{
         super(props);
         this.max_category_id=this.props.max_category_id;
         this.state={
-            flag:0,
+            mode:'default',
+            update_category:0, 
             categories:this.props.data
         }
     }
+
     showList(){
         var _list=[];
+        var temp;
         for (let _data of this.state.categories){
             if(_data.id!==0){
-                _list.push(
-                    <li key={_data.id}>
-                        {_data.title}
-                        <button>수정</button>
-                        <button>삭제</button>
-                    </li>);
+                if(_data.id===this.state.update_category && this.state.mode==='update'){
+                    _list.push(
+                        <li key={_data.id}>
+                            <form method="post"
+                                onSubmit={function(e){
+                                    e.preventDefault();
+                                    if(e.target.title.value!==''){
+                                        temp=Array.from(this.state.categories);
+                                        temp[_data.id].title=e.target.title.value;
+                                        this.setState({
+                                            mode:'default',
+                                            update_category:0,
+                                            categories:temp
+                                        });
+                                    }else{
+                                        alert("카테고리 명을 입력해주세요");
+                                    }
+                                }.bind(this)}
+                            >
+                                <input
+                                    type="text" name="title" placeholder={_data.title}
+                                ></input>
+                                <button type="submit">확인</button>
+                                <button onClick={function(e){
+                                    e.preventDefault();
+                                    this.setState({mode:'default'});
+                                }.bind(this)}>취소</button>
+                            </form>
+                        </li>
+                        );
+                }
+                else{
+                    _list.push(
+                        <li key={_data.id}>
+                            {_data.title}
+                            <button onClick={function(e){
+                                e.preventDefault();
+                                this.setState({mode:'update', update_category:_data.id});
+                            }.bind(this)}>수정</button>
+                            <button onClick={function(e){
+                                if(window.confirm('정말 삭제합니까?')){
+                                    temp=Array.from(this.state.categories);
+                                    temp.splice(_data.id, 1);
+                                    this.setState({
+                                        categories:temp
+                                    });
+                                }
+                            }.bind(this)}>삭제</button>
+                        </li>);
+                }
             } 
         }
         return _list;
     }
 
-    showForm(){
+    showCreateForm(){
         var _content=null;
-        if (this.state.flag===0){
-            return _content;
-        }
-        else if (this.state.flag===1){
+        if (this.state.mode==='create'){
             _content=
             <form
                 method="post"
                 onSubmit={function(e){
                     e.preventDefault();
-                    this.setState({flag:0});
-                    this.max_category_id=this.max_category_id+1;
-                    var _id=this.max_category_id;
-                    var _new=this.state.categories.concat(
-                        {id:_id, title:e.target.category.value});
-                    this.setState({
-                        categories:_new
-                    });
+                    if(e.target.category.value!==''){
+                        this.setState({mode:'default'});
+                        this.max_category_id=this.max_category_id+1;
+                        var _id=this.max_category_id;
+                        var _new=this.state.categories.concat(
+                            {id:_id, title:e.target.category.value});
+                        this.setState({
+                            categories:_new
+                        });
+                    }else{
+                        alert("카테고리 명을 입력해주세요");
+                    }
             }.bind(this)}>
                 <p>
                 <input type="text" name="category" placeholder="새 카테고리 명"></input>
                 </p>
                 <button type="submit">Submit</button>
             </form>;
-            return _content;
         }
+        return _content;
     }
 
     render(){
-        
         return(
             <div className="content">
                 <ul>
@@ -67,10 +114,10 @@ class SetCategories extends Component{
                 }.bind(this)}>적용</button>
                 <button onClick={function(e){
                     e.preventDefault();
-                    this.setState({flag:1});
+                    this.setState({mode:'create'});
                 }.bind(this)}>새 카테고리 만들기</button>
                 <div>
-                    {this.showForm()}
+                    {this.showCreateForm()}                   
                 </div>
             </div>
         )

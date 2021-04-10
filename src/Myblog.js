@@ -51,7 +51,6 @@ class Myblog extends Component{
                     }.bind(this)}
                     updateCategory={function(_content, _max){
                         this.max_category_id=_max;
-                        console.log(this.max_category_id);
                         this.setState({
                             categories:_content
                         });

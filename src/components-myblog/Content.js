@@ -9,7 +9,6 @@ class Content extends Component{
         super(props);
         this.state={
             selected_content:null,
-            categories:this.props.data,
             articles:[
                 {id:1, cat:1, title:'제목1', content:'내용1'},
                 {id:2, cat:2, title:'제목2', content:'내용2'},
