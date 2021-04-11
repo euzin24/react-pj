@@ -57,12 +57,22 @@ class SetCategories extends Component{
                                 this.setState({mode:'update', update_category:_data.id});
                             }.bind(this)}>수정</button>
                             <button onClick={function(e){
-                                if(window.confirm('정말 삭제합니까?')){
-                                    temp=Array.from(this.state.categories);
-                                    temp.splice(_data.id, 1);
-                                    this.setState({
-                                        categories:temp
-                                    });
+                                if(window.confirm(_data.title+"을 삭제합니다")){
+                                    if(this.props.checkContent(_data.id)){
+                                        var temp=Array.from(this.state.categories);
+                                        temp.splice(_data.id, 1);
+                                        this.setState({
+                                            categories:temp
+                                        });
+                                    }
+                                    // temp=Array.from(this.state.categories);
+                                    // temp.splice(_data.id, 1);
+                                    // this.setState({
+                                    //     categories:temp
+                                    // });
+                                    else{
+                                        alert("카테고리 내 게시글이 존재합니다!");
+                                    }
                                 }
                             }.bind(this)}>삭제</button>
                         </li>);

@@ -7,7 +7,9 @@ import SetCategories from './SetCategories';
 class Content extends Component{
     constructor(props){
         super(props);
+        this.max_content_id=3;
         this.state={
+            mode:'read-list',
             selected_content:null,
             articles:[
                 {id:1, cat:1, title:'제목1', content:'내용1'},
@@ -20,7 +22,7 @@ class Content extends Component{
         var _content=null;
         var _mode=this.props.mode;
         var _catid=this.props.num;
-        if (_mode==='read'){
+        if (_mode==='read-list'){
             var _data=null;
             _data=this.state.articles;
             _content=<ReadList 
@@ -41,10 +43,19 @@ class Content extends Component{
                         data={_cats}
                         max_category_id={this.props.max_category_id}
                         update={function(_content, _max){
-                            alert("updated!");
+                            alert("Updated!");
                             this.props.onChange();
                             this.props.updateCategory(_content, _max);
                         }.bind(this)}
+                        checkContent={function(_id){
+                            var i=1;
+                            var temp=Array.from(this.state.articles);
+                            temp.forEach(function(value){
+                                if(value.cat===_id){i=0;}
+                            });
+                            return i;
+                        }.bind(this)}
+                        
                         ></SetCategories>
         }else if (_mode==='read-contents'){
             _content=<ReadContent

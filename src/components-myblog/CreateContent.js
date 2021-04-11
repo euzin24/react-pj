@@ -1,7 +1,7 @@
 import '../Myblog.css';
 import { Component } from 'react';
 
-class ReadContent extends Component{
+class CreateContent extends Component{
     showContent(){
         var _content;
         var _article=this.props.article;
@@ -23,10 +23,11 @@ class ReadContent extends Component{
     render(){
         return(
             <div className="content">
+                CreateContent
                 {this.showContent()}
             </div>
         )
     }
 }
 
-export default ReadContent;
+export default CreateContent;
