@@ -37,7 +37,7 @@ class Myblog extends Component{
                 <Content 
                     mode={this.state.mode}
                     num={this.state.selected_category}
-                    data={this.state.categories}
+                    cats={this.state.categories}
                     max_category_id={this.max_category_id}
                     onChange={function(){
                         this.setState({

@@ -35,28 +35,16 @@ class ReadList extends Component{
             }
         }
         if (_list.length===0){
-            _list.push(<li key="0">게시글이 없습니다</li>);
+            _list.push(<li key='#'>게시글이 없습니다</li>);
         }
         return _list;
-    }
-
-    showTitle(){
-        var selected_category=this.props.num;
-        var _title=null;
-        for(let value of this.props.cat_data){
-            if(value.id===selected_category){
-                _title=value.title;
-                break;
-            }
-        }
-        return _title;
     }
 
     render(){
         return(
             <div className="content">
                 <ul>
-                    {this.showTitle()}
+                    {this.props.cat_title}
                     {this.showList()}
                 </ul>
             </div>

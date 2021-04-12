@@ -1,5 +1,6 @@
 import '../Myblog.css';
 import { Component } from 'react';
+import Select from 'react-select';
 
 class CreateContent extends Component{
     showContent(){
