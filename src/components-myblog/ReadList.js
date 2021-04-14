@@ -45,6 +45,11 @@ class ReadList extends Component{
             <div className="content">
                 <ul>
                     {this.props.cat_title}
+                    <button style={{float:'right'}}
+                        onClick={function(e){
+                            e.preventDefault();
+                            this.props.doCreate();
+                        }.bind(this)}>새글쓰기</button>
                     {this.showList()}
                 </ul>
             </div>

@@ -14,8 +14,8 @@ class ReadContent extends Component{
         var list=this.props.list;
         var page_number=this.state.selected_page;
         var temp=null;
-        if(page_number*3>this.props.list.length){
-            temp=list.slice((page_number-1)*3, this.props.list.length);
+        if(page_number*5>this.props.list.length){
+            temp=list.slice((page_number-1)*5, this.props.list.length);
             temp.forEach(element => {
                 content.push(
                     <li key={element.id}>
@@ -27,7 +27,7 @@ class ReadContent extends Component{
                 )
             });
         }else{
-            temp=list.slice((page_number-1)*3, page_number*3);
+            temp=list.slice((page_number-1)*5, page_number*5);
             temp.forEach(element => {
                 content.push(
                     <li key={element.id}>
@@ -43,12 +43,12 @@ class ReadContent extends Component{
     }
 
     prevBtnControl(){
-        if(this.state.selected_page==1){return true;}
+        if(this.state.selected_page===1){return true;}
         else{return false;}
     }
 
     nextBtnControl(){
-        if((this.state.selected_page*3)>=parseInt(this.props.list.length)){
+        if((this.state.selected_page*5)>=parseInt(this.props.list.length)){
             return true;}
         else{return false;}
     }

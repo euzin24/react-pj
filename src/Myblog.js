@@ -39,15 +39,14 @@ class Myblog extends Component{
                     num={this.state.selected_category}
                     cats={this.state.categories}
                     max_category_id={this.max_category_id}
-                    onChange={function(){
-                        this.setState({
-                            mode:'read-list'
-                        });
+                    showList={function(){
+                        this.setState({mode:'read-list'});
+                    }.bind(this)}
+                    setSelectedCategory={function(_id){
+                        this.setState({selected_category:_id});
                     }.bind(this)}
                     showContent={function(){
-                        this.setState({
-                            mode:'read-contents'
-                        });
+                        this.setState({mode:'read-contents'});
                     }.bind(this)}
                     updateCategory={function(_content, _max){
                         this.max_category_id=_max;
@@ -55,6 +54,9 @@ class Myblog extends Component{
                             selected_category: 0,
                             categories:_content
                         });
+                    }.bind(this)}
+                    showCreateContent={function(){
+                        this.setState({mode:'create-contents'});
                     }.bind(this)}
                     ></Content>
             </div>

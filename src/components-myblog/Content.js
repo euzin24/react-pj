@@ -3,13 +3,14 @@ import { Component } from 'react';
 import ReadList from './ReadList';
 import ReadContent from './ReadContent';
 import SetCategories from './SetCategories';
+import CreateContent from './CreateContent';
 
 class Content extends Component{
     constructor(props){
         super(props);
         this.max_content_id=7;
         this.state={
-            mode:'read-list',
+            // mode:'read-list',
             selected_content:null,
             articles:[
                 {id:1, cat:1, title:'제목1', content:'내용1'},
@@ -69,10 +70,11 @@ class Content extends Component{
                         cat_title={_category_title}
                         data={this.state.articles}
                         showContent={function(_id){
-                            this.setState({
-                                selected_content:_id
-                            });
+                            this.setState({selected_content:_id});
                             this.props.showContent();
+                        }.bind(this)}
+                        doCreate={function(){
+                            this.props.showCreateContent();
                         }.bind(this)}></ReadList>;
         }else if (_mode==='set-cats'){
             var _cats=this.props.cats;
@@ -82,7 +84,7 @@ class Content extends Component{
                         max_category_id={this.props.max_category_id}
                         update={function(_content, _max){
                             alert("Updated!");
-                            this.props.onChange();
+                            this.props.showList();
                             this.props.updateCategory(_content, _max);
                         }.bind(this)}
                         checkContent={function(_id){
@@ -92,9 +94,7 @@ class Content extends Component{
                                 if(value.cat===_id){i=0;}
                             });
                             return i;
-                        }.bind(this)}
-                        
-                        ></SetCategories>
+                        }.bind(this)}></SetCategories>
         }else if (_mode==='read-contents'){
             var _title=this.getCategoryTitle();
             var _info=this.getContentInfo();
@@ -105,8 +105,22 @@ class Content extends Component{
                         list={_list}
                         resetSelectedContent={function(id){
                             this.setState({selected_content:id});
-                        }.bind(this)}
-                        ></ReadContent>
+                        }.bind(this)}></ReadContent>
+        }else if (_mode==='create-contents'){
+            _content=<CreateContent
+                        cats={this.props.cats}
+                        selected_category={this.props.num}
+                        createArticle={function(_cat, _title, _content){
+                            this.max_content_id = this.max_content_id + 1;
+                            var temp = this.state.articles.concat(
+                                {id: this.max_content_id, cat:_cat, title:_title, content:_content});
+                            this.setState({
+                                articles:temp,
+                                selected_content:this.max_content_id
+                            });
+                            this.props.showContent();
+                            this.props.setSelectedCategory(_cat);
+                        }.bind(this)}></CreateContent>
         }
         return _content;
     }
