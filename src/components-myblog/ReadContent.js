@@ -66,7 +66,14 @@ class ReadContent extends Component{
                         this.props.modifyContent();
                     }.bind(this)}
                 >수정</button>
-                <button>삭제</button>
+                <button
+                    onClick={function(e){
+                        e.preventDefault();
+                        if(window.confirm("정말 삭제하시겠습니까?")){
+                            this.props.deleteContent(this.props.article.id);
+                        }
+                    }.bind(this)}
+                >삭제</button>
                 <hr></hr>
                 <p>{this.props.cat_title}의 다른 게시글</p>
                

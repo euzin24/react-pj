@@ -111,6 +111,13 @@ class Content extends Component{
                         modifyContent={function(){
                             this.props.setMode('update-content')
                         }.bind(this)}
+                        deleteContent={function(_id){
+                            var _articles=this.state.articles;
+                            this.setState({
+                                articles: _articles.filter(atcl => atcl.id!==_id)
+                            });
+                            this.props.setMode('read-list');
+                        }.bind(this)}
                         ></ReadContent>
         }else if (_mode==='create-content'){
             _content=<CreateContent

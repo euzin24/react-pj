@@ -14,7 +14,7 @@ class SetCategories extends Component{
 
     showList(){
         var _list=[];
-        var temp;
+        var temp=Array.from(this.state.categories);
         for (let _data of this.state.categories){
             if(_data.id!==0){
                 if(_data.id===this.state.update_category && this.state.mode==='update'){
@@ -24,7 +24,6 @@ class SetCategories extends Component{
                                 onSubmit={function(e){
                                     e.preventDefault();
                                     if(e.target.title.value!==''){
-                                        temp=Array.from(this.state.categories);
                                         temp[_data.id].title=e.target.title.value;
                                         this.setState({
                                             mode:'default',
@@ -59,10 +58,9 @@ class SetCategories extends Component{
                             <button onClick={function(e){
                                 if(window.confirm(_data.title+"을 삭제합니다")){
                                     if(this.props.checkEmpty(_data.id)){
-                                        var temp=Array.from(this.state.categories);
-                                        temp.splice(_data.id, 1);
+                                        var _categories=this.state.categories;
                                         this.setState({
-                                            categories:temp
+                                            categories: _categories.filter(cat => cat.id!==_data.id)
                                         });
                                     }else{
                                         alert("카테고리 내 게시글이 존재합니다!");
