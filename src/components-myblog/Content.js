@@ -4,6 +4,7 @@ import ReadList from './ReadList';
 import ReadContent from './ReadContent';
 import SetCategories from './SetCategories';
 import CreateContent from './CreateContent';
+import UpdateContent from './UpdateContent';
 
 class Content extends Component{
     constructor(props){
@@ -37,15 +38,17 @@ class Content extends Component{
         var _title=null;
         var _content=null;
         var _id=null;
+        var _cat=null;
         this.state.articles.forEach(element =>{
             if(element.id===this.state.selected_content){
                 _id=element.id;
+                _cat=element.cat;
                 _title=element.title;
                 _content=element.content;   
             }
         });
         
-        return {id:_id, title:_title, content:_content};
+        return {id:_id, cat:_cat, title:_title, content:_content};
     }
 
     getContentList(){
@@ -71,10 +74,10 @@ class Content extends Component{
                         data={this.state.articles}
                         showContent={function(_id){
                             this.setState({selected_content:_id});
-                            this.props.showContent();
+                            this.props.setMode('read-content');
                         }.bind(this)}
                         doCreate={function(){
-                            this.props.showCreateContent();
+                            this.props.setMode('create-content');
                         }.bind(this)}></ReadList>;
         }else if (_mode==='set-cats'){
             var _cats=this.props.cats;
@@ -83,19 +86,18 @@ class Content extends Component{
                         data={_cats}
                         max_category_id={this.props.max_category_id}
                         update={function(_content, _max){
-                            alert("Updated!");
-                            this.props.showList();
                             this.props.updateCategory(_content, _max);
+                            alert("Updated!");
+                            this.props.setMode('read-list');
                         }.bind(this)}
-                        checkContent={function(_id){
+                        checkEmpty={function(_id){
                             var i=1;
-                            var temp=Array.from(this.state.articles);
-                            temp.forEach(function(value){
+                            this.state.articles.forEach(function(value){
                                 if(value.cat===_id){i=0;}
                             });
                             return i;
                         }.bind(this)}></SetCategories>
-        }else if (_mode==='read-contents'){
+        }else if (_mode==='read-content'){
             var _title=this.getCategoryTitle();
             var _info=this.getContentInfo();
             var _list=this.getContentList();
@@ -105,8 +107,12 @@ class Content extends Component{
                         list={_list}
                         resetSelectedContent={function(id){
                             this.setState({selected_content:id});
-                        }.bind(this)}></ReadContent>
-        }else if (_mode==='create-contents'){
+                        }.bind(this)}
+                        modifyContent={function(){
+                            this.props.setMode('update-content')
+                        }.bind(this)}
+                        ></ReadContent>
+        }else if (_mode==='create-content'){
             _content=<CreateContent
                         cats={this.props.cats}
                         selected_category={this.props.num}
@@ -118,9 +124,28 @@ class Content extends Component{
                                 articles:temp,
                                 selected_content:this.max_content_id
                             });
-                            this.props.showContent();
+                            this.props.setMode('read-content');
                             this.props.setSelectedCategory(_cat);
                         }.bind(this)}></CreateContent>
+        }else if (_mode==='update-content'){
+            var _info=this.getContentInfo();
+            _content=<UpdateContent
+                        cats={this.props.cats}
+                        article={_info}
+                        updateArticle={function(_cat, _title, _content){
+                            var temp=Array.from(this.state.articles);
+                            temp.forEach(element => {
+                                if(element.id===_info.id){
+                                    element.cat=_cat;
+                                    element.title=_title;
+                                    element.content=_content;
+                                }
+                            });
+                            this.setState({articles:temp});
+                            this.props.setMode('read-content');
+                            this.props.setSelectedCategory(_cat);
+                        }.bind(this)}
+                        ></UpdateContent>
         }
         return _content;
     }

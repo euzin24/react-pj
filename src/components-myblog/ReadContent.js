@@ -60,7 +60,12 @@ class ReadContent extends Component{
                 <hr></hr>
                 <p>{this.props.article.content}</p>
                 <hr></hr>
-                <button>수정</button>
+                <button
+                    onClick={function(e){
+                        e.preventDefault();
+                        this.props.modifyContent();
+                    }.bind(this)}
+                >수정</button>
                 <button>삭제</button>
                 <hr></hr>
                 <p>{this.props.cat_title}의 다른 게시글</p>

@@ -1,17 +1,24 @@
 import '../Myblog.css';
 import { Component } from 'react';
 
-class CreateContent extends Component{
+class UpdateContent extends Component{
     constructor(props){
         super(props);
         this.state={
-            selected_category: this.props.selected_category,
-            showMenu: false
+            selected_category: this.props.article.cat,
+            showMenu: false,
+            title: this.props.article.title,
+            content: this.props.article.content
         }
         this.showMenu = this.showMenu.bind(this);
+        this.inputFormHandler = this.inputFormHandler.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
-      
+
+    inputFormHandler(e){
+        this.setState({[e.target.name]:e.target.value});
+    }
+
     showMenu(e) {
         e.preventDefault();
         if (this.state.showMenu===false){
@@ -57,9 +64,9 @@ class CreateContent extends Component{
 
     onSubmit(e){
         e.preventDefault();
-        if(window.confirm("새 게시물을 발행합니다")){
+        if(window.confirm("게시물을 수정합니다")){
             if(e.target.title.value!=='' && e.target.content.value!==''){
-                this.props.createArticle(
+                this.props.updateArticle(
                     this.state.selected_category, 
                     e.target.title.value, 
                     e.target.content.value);
@@ -82,10 +89,12 @@ class CreateContent extends Component{
                         </ul> 
                     </div>                    
                     <p>
-                        <input type="text" name="title" placeholder="제목"></input>
+                        <input type="text" name="title" value={this.state.title}
+                            onChange={this.inputFormHandler}></input>
                     </p>
                     <p>
-                        <textarea name="content" placeholder="내용..."></textarea>
+                        <textarea name="content" value={this.state.content}
+                            onChange={this.inputFormHandler}></textarea>
                     </p>
                     <button type="submit">확인</button>
                 </form>
@@ -94,4 +103,4 @@ class CreateContent extends Component{
     }
 }
 
-export default CreateContent;
+export default UpdateContent;

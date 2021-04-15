@@ -9,7 +9,8 @@ class Nav extends Component{
             _list.push(
                 <li key={_data.id}>
                     <span onClick={function(_id){
-                        this.props.showCategory(_data.id);
+                        this.props.setMode('read-list');
+                        this.props.setSelectedCategory(_data.id);
                     }.bind(this)}>
                         {_data.title}
                     </span>
@@ -33,7 +34,7 @@ class Nav extends Component{
                     </ul>
                     <button className="nav-btn" onClick={function(e){
                         e.preventDefault();
-                        this.props.onChange();
+                        this.props.setMode('set-cats');
                     }.bind(this)}>카테고리 편집</button>
                 </nav>
             </div>
