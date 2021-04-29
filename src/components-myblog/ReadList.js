@@ -1,6 +1,5 @@
 import '../Myblog.css';
 import { Component } from 'react';
-import { Link } from 'react-router-dom';
 
 class ReadList extends Component{
     showList(){
@@ -15,10 +14,8 @@ class ReadList extends Component{
                     <li key={value.id} onClick={function(){
                         this.props.showContent(value.id);
                     }.bind(this)}>
-                        <Link to={_path}>
-                            <h2>{value.title}</h2>
-                            <p>{value.content}</p>
-                        </Link>
+                        <h2>{value.title}</h2>
+                        <p>{value.content}</p>
                         <hr></hr>
                     </li>
                 )
@@ -32,10 +29,8 @@ class ReadList extends Component{
                         <li key={value.id} onClick={function(){
                             this.props.showContent(value.id);
                         }.bind(this)}>
-                            <Link to={_path}>
-                                <h2>{value.title}</h2> 
-                                <p>{value.content}</p>
-                            </Link>
+                            <h2>{value.title}</h2> 
+                            <p>{value.content}</p>
                             <hr></hr>
                         </li>
                     )

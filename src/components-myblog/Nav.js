@@ -1,7 +1,6 @@
 import '../Myblog.css';
 import { Component } from 'react';
 import logo from '../logo.svg';
-import { Link } from 'react-router-dom';
 
 // const showList=()=>{
 //     var _list=[];
@@ -58,14 +57,12 @@ class Nav extends Component{
             _path+=_data.title;
             _list.push(
                 <li key={_data.id}>
-                    <Link to={_path}>
-                        <span onClick={function(_id){
-                            this.props.setMode('read-list');
-                            this.props.setSelectedCategory(_data.id);
-                        }.bind(this)}>
-                            {_data.title}
-                        </span>
-                    </Link>
+                    <span onClick={function(_id){
+                        this.props.setMode('read-list');
+                        this.props.setSelectedCategory(_data.id);
+                    }.bind(this)}>
+                        {_data.title}
+                    </span>
                 </li>);
             _path='/lists/';
         }
@@ -76,9 +73,7 @@ class Nav extends Component{
         return(
             <div className="nav-bar">
                 <header className="header">
-                    <Link to='/'>
-                        <img className="profile-img" alt="logo" src={logo}></img>
-                    </Link>
+                    <img className="profile-img" alt="logo" src={logo}></img>
                     <h3>{this.props.name}</h3>
                     <p>{this.props.desc}</p>
                 </header>
@@ -91,7 +86,7 @@ class Nav extends Component{
                         e.preventDefault();
                         this.props.setMode('set-cats');
                         }.bind(this)}>
-                        <Link to='/setting-cats'>카테고리 편집</Link>
+                        카테고리 편집
                     </button>
                 </nav>
             </div>
