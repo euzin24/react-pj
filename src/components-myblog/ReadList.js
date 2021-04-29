@@ -1,19 +1,24 @@
 import '../Myblog.css';
 import { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class ReadList extends Component{
     showList(){
-        var selected_category=this.props.num;
+        var selected_category=this.props.cat_id;
         var _articles=this.props.data;
         var _list=[];
+        var _path=null;
         if(selected_category===0){
             for(let value of _articles){
+                _path='/read-content/'+this.props.cat_title+'/'+value.id
                 _list.push(
                     <li key={value.id} onClick={function(){
                         this.props.showContent(value.id);
                     }.bind(this)}>
-                        <h2>{value.title}</h2>
-                        <p>{value.content}</p>
+                        <Link to={_path}>
+                            <h2>{value.title}</h2>
+                            <p>{value.content}</p>
+                        </Link>
                         <hr></hr>
                     </li>
                 )
@@ -22,12 +27,15 @@ class ReadList extends Component{
         else{
             for(let value of _articles){
                 if(value.cat===selected_category){
+                    _path='/read-content/'+this.props.cat_title+'/'+value.id
                     _list.push(
                         <li key={value.id} onClick={function(){
                             this.props.showContent(value.id);
                         }.bind(this)}>
-                            <h2>{value.title}</h2> 
-                            <p>{value.content}</p>
+                            <Link to={_path}>
+                                <h2>{value.title}</h2> 
+                                <p>{value.content}</p>
+                            </Link>
                             <hr></hr>
                         </li>
                     )

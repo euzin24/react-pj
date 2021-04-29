@@ -8,11 +8,9 @@ import App2 from './App2';
 import Myblog from './Myblog';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <BrowserRouter>
+  <BrowserRouter>
       <Myblog />
-    </BrowserRouter>
-  </React.StrictMode>,
+  </BrowserRouter>,
   document.getElementById('root')
 );
 

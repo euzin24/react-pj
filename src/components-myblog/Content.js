@@ -5,13 +5,13 @@ import ReadContent from './ReadContent';
 import SetCategories from './SetCategories';
 import CreateContent from './CreateContent';
 import UpdateContent from './UpdateContent';
+import { Route, Switch } from 'react-router-dom';
 
 class Content extends Component{
     constructor(props){
         super(props);
         this.max_content_id=7;
         this.state={
-            // mode:'read-list',
             selected_content:null,
             articles:[
                 {id:1, cat:1, title:'제목1', content:'내용1'},
@@ -26,7 +26,7 @@ class Content extends Component{
 
     getCategoryTitle(){
         for(let value of this.props.cats){
-            if(value.id===this.props.num){
+            if(value.id===this.props.selected_cat){
                 var _title=value.title;
                 break;
             }
@@ -54,7 +54,7 @@ class Content extends Component{
     getContentList(){
         var list=[];
         this.state.articles.forEach(element => {
-            if(element.cat===this.props.num || this.props.num===0){
+            if(element.cat===this.props.selected_cat || this.props.selected_cat===0){
                 list.push(element);
             }
         });
@@ -64,96 +64,192 @@ class Content extends Component{
     getContent(){
         var _content=null;
         var _mode=this.props.mode;
-        var _catid=this.props.num;
-        if (_mode==='read-list'){
-            var _category_title=this.getCategoryTitle();
-            _content=<ReadList 
-                        num={_catid}
-                        mode={_mode}
-                        cat_title={_category_title}
-                        data={this.state.articles}
-                        showContent={function(_id){
-                            this.setState({selected_content:_id});
-                            this.props.setMode('read-content');
-                        }.bind(this)}
-                        doCreate={function(){
-                            this.props.setMode('create-content');
-                        }.bind(this)}></ReadList>;
-        }else if (_mode==='set-cats'){
-            var _cats=this.props.cats;
-            _content=<SetCategories 
-                        mode={_mode}
-                        data={_cats}
-                        max_category_id={this.props.max_category_id}
-                        update={function(_content, _max){
-                            this.props.updateCategory(_content, _max);
-                            alert("Updated!");
-                            this.props.setMode('read-list');
-                        }.bind(this)}
-                        checkEmpty={function(_id){
-                            var i=1;
-                            this.state.articles.forEach(function(value){
-                                if(value.cat===_id){i=0;}
-                            });
-                            return i;
-                        }.bind(this)}></SetCategories>
-        }else if (_mode==='read-content'){
-            var _title=this.getCategoryTitle();
-            var _info=this.getContentInfo();
-            var _list=this.getContentList();
-            _content=<ReadContent
-                        cat_title={_title}
-                        article={_info}
-                        list={_list}
-                        resetSelectedContent={function(id){
-                            this.setState({selected_content:id});
-                        }.bind(this)}
-                        modifyContent={function(){
-                            this.props.setMode('update-content')
-                        }.bind(this)}
-                        deleteContent={function(_id){
-                            var _articles=this.state.articles;
-                            this.setState({
-                                articles: _articles.filter(atcl => atcl.id!==_id)
-                            });
-                            this.props.setMode('read-list');
-                        }.bind(this)}
-                        ></ReadContent>
-        }else if (_mode==='create-content'){
-            _content=<CreateContent
-                        cats={this.props.cats}
-                        selected_category={this.props.num}
-                        createArticle={function(_cat, _title, _content){
-                            this.max_content_id = this.max_content_id + 1;
-                            var temp = this.state.articles.concat(
-                                {id: this.max_content_id, cat:_cat, title:_title, content:_content});
-                            this.setState({
-                                articles:temp,
-                                selected_content:this.max_content_id
-                            });
-                            this.props.setMode('read-content');
-                            this.props.setSelectedCategory(_cat);
-                        }.bind(this)}></CreateContent>
-        }else if (_mode==='update-content'){
-            var _info=this.getContentInfo();
-            _content=<UpdateContent
-                        cats={this.props.cats}
-                        article={_info}
-                        updateArticle={function(_cat, _title, _content){
-                            var temp=Array.from(this.state.articles);
-                            temp.forEach(element => {
-                                if(element.id===_info.id){
-                                    element.cat=_cat;
-                                    element.title=_title;
-                                    element.content=_content;
-                                }
-                            });
-                            this.setState({articles:temp});
-                            this.props.setMode('read-content');
-                            this.props.setSelectedCategory(_cat);
-                        }.bind(this)}
-                        ></UpdateContent>
-        }
+        var _cats=this.props.cats;
+        var _cat_id=this.props.selected_cat;
+        var _info=this.getContentInfo();
+        var _list=this.getContentList();
+        var _category_title=this.getCategoryTitle();
+
+        // if (_mode==='read-list'){
+        //     _content=<ReadList 
+        //                 mode={_mode}
+        //                 cat_id={_cat_id}
+        //                 cat_title={_category_title}
+        //                 data={this.state.articles}
+        //                 showContent={function(_id){
+        //                     this.setState({selected_content:_id});
+        //                     this.props.setMode('read-content');
+        //                 }.bind(this)}
+        //                 doCreate={function(){
+        //                     this.props.setMode('create-content');
+        //                 }.bind(this)}></ReadList>;
+        // }else if (_mode==='set-cats'){
+        //     _content=<SetCategories 
+        //                 mode={_mode}
+        //                 data={_cats}
+        //                 max_category_id={this.props.max_category_id}
+        //                 update={function(_content, _max){
+        //                     this.props.updateCategory(_content, _max);
+        //                     alert("Updated!");
+        //                     this.props.setMode('read-list');
+        //                 }.bind(this)}
+        //                 checkEmpty={function(_id){
+        //                     var i=1;
+        //                     this.state.articles.forEach(function(value){
+        //                         if(value.cat===_id){i=0;}
+        //                     });
+        //                     return i;
+        //                 }.bind(this)}></SetCategories>
+        // }else if (_mode==='read-content'){
+        //     _content=<ReadContent
+        //                 cat_title={_category_title}
+        //                 article={_info}
+        //                 list={_list}
+        //                 resetSelectedContent={function(id){
+        //                     this.setState({selected_content:id});
+        //                 }.bind(this)}
+        //                 modifyContent={function(){
+        //                     this.props.setMode('update-content')
+        //                 }.bind(this)}
+        //                 deleteContent={function(_id){
+        //                     var _articles=this.state.articles;
+        //                     this.setState({
+        //                         articles: _articles.filter(atcl => atcl.id!==_id)
+        //                     });
+        //                     this.props.setMode('read-list');
+        //                 }.bind(this)}></ReadContent>
+        // }else if (_mode==='create-content'){
+        //     _content=<CreateContent
+        //                 cats={this.props.cats}
+        //                 selected_category={this.props.selected_cat}
+        //                 createArticle={function(_cat, _title, _content){
+        //                     this.max_content_id = this.max_content_id + 1;
+        //                     var temp = this.state.articles.concat(
+        //                         {id: this.max_content_id, cat:_cat, title:_title, content:_content});
+        //                     this.setState({
+        //                         articles:temp,
+        //                         selected_content:this.max_content_id
+        //                     });
+        //                     this.props.setMode('read-content');
+        //                     this.props.setSelectedCategory(_cat);
+        //                 }.bind(this)}></CreateContent>
+        // }else if (_mode==='update-content'){
+        //     _content=<UpdateContent
+        //                 cats={this.props.cats}
+        //                 article={_info}
+        //                 updateArticle={function(_cat, _title, _content){
+        //                     var temp=Array.from(this.state.articles);
+        //                     temp.forEach(element => {
+        //                         if(element.id===_info.id){
+        //                             element.cat=_cat;
+        //                             element.title=_title;
+        //                             element.content=_content;
+        //                         }
+        //                     });
+        //                     this.setState({articles:temp});
+        //                     this.props.setMode('read-content');
+        //                     this.props.setSelectedCategory(_cat);
+        //                 }.bind(this)}></UpdateContent>
+        // }
+        _content=
+        <Switch>
+            <Route exact path='/'>
+                <p>
+                    Landing Page
+                </p>
+            </Route>
+            <Route path='/lists'>
+                <ReadList 
+                    mode={_mode}
+                    cat_id={_cat_id}
+                    cat_title={_category_title}
+                    data={this.state.articles}
+                    showContent={function(_id){
+                        this.setState({selected_content:_id});
+                        this.props.setMode('read-content');
+                    }.bind(this)}
+                    doCreate={function(){
+                        this.props.setMode('create-content');
+                    }.bind(this)}>
+                </ReadList>
+            </Route>
+            <Route path='/setting-cats'>
+                <SetCategories 
+                    mode={_mode}
+                    data={_cats}
+                    max_category_id={this.props.max_category_id}
+                    update={function(_content, _max){
+                        this.props.updateCategory(_content, _max);
+                        alert("Updated!");
+                        this.props.setMode('read-list');
+                    }.bind(this)}
+                    checkEmpty={function(_id){
+                        var i=1;
+                        this.state.articles.forEach(function(value){
+                            if(value.cat===_id){i=0;}
+                        });
+                        return i;
+                    }.bind(this)}>
+                </SetCategories>
+            </Route>
+            <Route path='/read-content'>
+                <ReadContent
+                    cat_title={_category_title}
+                    article={_info}
+                    list={_list}
+                    resetSelectedContent={function(id){
+                        this.setState({selected_content:id});
+                    }.bind(this)}
+                    modifyContent={function(){
+                        this.props.setMode('update-content')
+                    }.bind(this)}
+                    deleteContent={function(_id){
+                        var _articles=this.state.articles;
+                        this.setState({
+                            articles: _articles.filter(atcl => atcl.id!==_id)
+                        });
+                        this.props.setMode('read-list');
+                    }.bind(this)}>
+                </ReadContent>
+            </Route>
+            <Route path='/create-content'>
+                <CreateContent
+                    cats={this.props.cats}
+                    selected_category={this.props.num}
+                    createArticle={function(_cat, _title, _content){
+                        this.max_content_id = this.max_content_id + 1;
+                        var temp = this.state.articles.concat(
+                            {id: this.max_content_id, cat:_cat, title:_title, content:_content});
+                        this.setState({
+                            articles:temp,
+                            selected_content:this.max_content_id
+                        });
+                        this.props.setMode('read-content');
+                        this.props.setSelectedCategory(_cat);
+                    }.bind(this)}>
+                </CreateContent>
+            </Route>
+            <Route path='/update-content'>
+                <UpdateContent
+                    cats={this.props.cats}
+                    article={_info}
+                    updateArticle={function(_cat, _title, _content){
+                        var temp=Array.from(this.state.articles);
+                        temp.forEach(element => {
+                            if(element.id===_info.id){
+                                element.cat=_cat;
+                                element.title=_title;
+                                element.content=_content;
+                            }
+                        });
+                        this.setState({articles:temp});
+                        this.props.setMode('read-content');
+                        this.props.setSelectedCategory(_cat);
+                    }.bind(this)}>
+                </UpdateContent>
+            </Route>
+        </Switch>
+
         return _content;
     }
 

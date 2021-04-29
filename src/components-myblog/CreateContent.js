@@ -1,5 +1,6 @@
 import '../Myblog.css';
 import { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class CreateContent extends Component{
     constructor(props){
@@ -87,7 +88,8 @@ class CreateContent extends Component{
                     <p>
                         <textarea name="content" placeholder="내용..."></textarea>
                     </p>
-                    <button type="submit">확인</button>
+                    <button type="submit">
+                        <Link to='/read-content'>확인</Link></button>
                 </form>
             </div>
         )

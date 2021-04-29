@@ -1,5 +1,6 @@
 import '../Myblog.css';
 import { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class SetCategories extends Component{
     constructor(props){
@@ -113,14 +114,13 @@ class SetCategories extends Component{
                 <button onClick={function(e){
                     e.preventDefault();
                     this.props.update(this.state.categories, this.max_category_id);
-                }.bind(this)}>적용</button>
+                    }.bind(this)}>
+                    <Link to="/">적용</Link></button>
                 <button onClick={function(e){
                     e.preventDefault();
                     this.setState({mode:'create'});
-                }.bind(this)}>새 카테고리 만들기</button>
-                <div>
-                    {this.showCreateForm()}                   
-                </div>
+                    }.bind(this)}>새 카테고리 만들기</button>
+                {this.showCreateForm()}
             </div>
         )
     }

@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
 
-function About(){
+function Contact(){
     return(
         <header>
-        <h2> This is About page</h2>
+        <h2> Contact email is...</h2>
         <Link to='/'>Back</Link>
         <hr></hr>
         </header>
     );
 }
 
-  export default About;
+  export default Contact;
