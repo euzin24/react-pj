@@ -9,7 +9,7 @@ import Myblog from './Myblog';
 
 ReactDOM.render(
   <BrowserRouter>
-      <Myblog />
+      <App2 />
   </BrowserRouter>,
   document.getElementById('root')
 );

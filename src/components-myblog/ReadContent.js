@@ -14,7 +14,6 @@ class ReadContent extends Component{
         var list=this.props.list;
         var page_number=this.state.selected_page;
         var temp=null;
-        var path=null;
         if(page_number*5>this.props.list.length){
             temp=list.slice((page_number-1)*5, this.props.list.length);
             temp.forEach(element => {

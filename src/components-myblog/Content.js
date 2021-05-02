@@ -46,7 +46,6 @@ class Content extends Component{
                 _content=element.content;   
             }
         });
-        
         return {id:_id, cat:_cat, title:_title, content:_content};
     }
 
