@@ -6,10 +6,11 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import App2 from './App2';
 import Myblog from './Myblog';
+import Myblogre from './myblog-re/Myblogre'
 
 ReactDOM.render(
   <BrowserRouter>
-      <App2 />
+      <Myblogre />
   </BrowserRouter>,
   document.getElementById('root')
 );

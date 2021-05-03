@@ -1,0 +1,62 @@
+.App {
+  text-align: center;
+}
+
+html,body{
+  font-family: 'nanumsquare';
+  flex-direction: row;
+}
+
+.nav-bar{
+  width: 30vw;
+  min-height: 100vh;
+  background-color: whitesmoke;
+  flex-direction: column;
+  float: left;
+}
+
+.header{
+  padding-top: 5vh;
+  padding-bottom: 5vh;
+}
+
+ul{
+  list-style: none;
+  padding-left:0;
+}li{
+  padding:2mm;
+}
+
+.section{
+  text-align: left;
+  flex-direction: column;
+  float: left;
+  width: 65vw;
+  background-color: cornflowerblue;
+}
+
+.content{
+  margin-left: 5em;
+  margin-right: 5em;
+  margin-top: 5em;
+  margin-bottom: 5em;
+  background-color: cornsilk;
+}
+
+.li-btn{
+  padding-left: 10em;
+}
+
+textarea{
+  display:inline-block;
+}
+
+a{
+  text-decoration: none;
+}
+
+.active{
+  text-decoration: none;
+  background-color: black;
+  color:white;
+}
