@@ -10,7 +10,6 @@ function SetCategories(props){
     const [categories, setCats]=useState(props.data);
 
     const showCreateForm=()=>{
-        console.log("showCreateForm top Max:"+maxCatId)
         let _content=null;
         if (mode==='create'){
             _content=
@@ -20,11 +19,10 @@ function SetCategories(props){
                     e.preventDefault();
                     if(e.target.category.value!==''){
                         setMode('default');
-                        console.log("max:"+maxCatId);
-                        var _id=maxCatId+1;
-                        setMax(_id);
+                        var _max=maxCatId+1;
+                        setMax(_max);
                         var _new=categories.concat(
-                            {id:_id, title:e.target.category.value});
+                            {id:_max, title:e.target.category.value});
                         setCats(_new);
                     }else{
                         alert("카테고리 명을 입력해주세요");

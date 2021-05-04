@@ -4,15 +4,16 @@ import { Switch, Route, useParams } from 'react-router-dom';
 import SetCategories from './SetCategories';
 import ReadList from './ReadList';
 import ReadContent from './ReadContent';
-// import CreateContent from './CreateContent';
-// import UpdateContent from './UpdateContent';
+import CreateContent from './CreateContent';
+import UpdateContent from './UpdateContent';
 
 function NotFound(){
     return <div>NOT FOUND</div>
 }
 
 function Content(props){
-    const max_content_id=7;
+    // let max_content_id=7;
+    const [maxCon, setMaxCon]=useState(7);
     const [selectedCon, setSelectedCon] = useState(null);
     const [articles, setArticles] = useState([
         {id:1, cat:1, title:'제목1', content:'내용1'},
@@ -89,10 +90,36 @@ function Content(props){
                     }}></SetCategories>
             </Route>
             <Route exact path='/create'>
-                 <div>Create</div>
+                <CreateContent
+                    cats={_cats}
+                    selected_category={_cat_id}
+                    max_content_id={maxCon}
+                    createArticle={(_cat, _title, _content)=>{
+                        var _max=maxCon+1;
+                        setMaxCon(_max);
+                        var temp = articles.concat(
+                            {id: _max, cat:_cat, title:_title, content:_content});
+                        setArticles(temp);
+                        setSelectedCon(_max);
+                        props.setSelectedCategory(_cat);
+                }}></CreateContent>
              </Route>
              <Route exact path='/update/:id'>
-                 <div>Update</div>
+                <UpdateContent
+                    cats={props.cats}
+                    article={_info}
+                    updateArticle={(_cat, _title, _content)=>{
+                        var temp=Array.from(articles);
+                        temp.forEach(element => {
+                            if(element.id===_info.id){
+                                element.cat=_cat;
+                                element.title=_title;
+                                element.content=_content;
+                            }
+                        });
+                        setArticles(temp);
+                        props.setSelectedCategory(_cat);
+                    }}></UpdateContent>
              </Route>
             <Route exact path='/:cat_title'>
                 <ReadList
@@ -102,10 +129,7 @@ function Content(props){
                      showContent={(_id)=>{
                          setSelectedCon(_id);
                          props.setMode('read-content');
-                     }}
-                     doCreate={()=>{
-                         props.setMode('create-content');
-                    }}></ReadList>
+                     }}></ReadList>
              </Route> 
              <Route exact path='/:cat_title/:id'>
                 <ReadContent

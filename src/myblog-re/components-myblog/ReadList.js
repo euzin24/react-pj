@@ -51,10 +51,7 @@ function ReadList(props){
         <div className="content">
                 <ul>
                     {cat_title}
-                    <button style={{float:'right'}}
-                        onClick={(e)=>{
-                            e.preventDefault();
-                            props.doCreate();}}>
+                    <button style={{float:'right'}}>
                         <Link to='/create'>새글쓰기</Link></button>
                     {showList()}
                 </ul>

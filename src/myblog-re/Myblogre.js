@@ -4,7 +4,7 @@ import Nav from './components-myblog/Nav'
 import Content from './components-myblog/Content';
 
 function Myblog(){
-    let max_category_id=3;
+    const [maxCat, setMaxCat]=useState(3)
     const [mode, setMode]=useState('read-list');
     const [selectedCat, setSelectedCat]=useState(0);
     const [profile, setProfile]=useState({name:'Euzin24', desc:'개발 블로그'});
@@ -31,7 +31,7 @@ function Myblog(){
                 mode={mode}
                 selected_cat={selectedCat}
                 cats={categories}
-                max_category_id={max_category_id}
+                max_category_id={maxCat}
                 setMode={(_mode)=>{
                     setMode(_mode);
                 }}
@@ -39,7 +39,7 @@ function Myblog(){
                     setSelectedCat(_id);
                 }}
                 updateCategory={(_content, _max)=>{
-                    max_category_id=_max;
+                    setMaxCat(_max);
                     setSelectedCat(0);
                     SetCategories(_content);
                 }}
