@@ -13,7 +13,6 @@ function Nav(props){
                 <li key={_data.id}>
                     <NavLink to={_path}>
                         <span onClick={(_id)=>{
-                            props.setMode('read-list');
                             props.setSelectedCategory(_data.id);}}>
                             {_data.title}
                         </span>

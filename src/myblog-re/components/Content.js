@@ -7,10 +7,6 @@ import ReadContent from './ReadContent';
 import CreateContent from './CreateContent';
 import UpdateContent from './UpdateContent';
 
-function NotFound(){
-    return <div>NOT FOUND</div>
-}
-
 function Content(props){
     // let max_content_id=7;
     const [maxCon, setMaxCon]=useState(7);
@@ -79,8 +75,7 @@ function Content(props){
                     max_category_id={props.max_category_id}
                     update={(_content, _max)=>{
                         props.updateCategory(_content, _max);
-                        alert("Updated!");
-                        props.setMode('read-list');}}
+                        alert("Updated!");}}
                     checkEmpty={(_id)=>{
                         var i=1;
                         articles.forEach((value)=>{
@@ -127,9 +122,7 @@ function Content(props){
                      cat_title={_category_title}
                      data={articles}
                      showContent={(_id)=>{
-                         setSelectedCon(_id);
-                         props.setMode('read-content');
-                     }}></ReadList>
+                         setSelectedCon(_id);}}></ReadList>
              </Route> 
              <Route exact path='/:cat_title/:id'>
                 <ReadContent
@@ -138,23 +131,17 @@ function Content(props){
                     resetSelectedContent={(id)=>{
                         setSelectedCon(id);
                     }}
-                    modifyContent={()=>{
-                        props.setMode('update-content')
-                    }}
                     deleteContent={(_id)=>{
                         var _articles=articles;
                         setArticles(_articles.filter(atcl => atcl.id!==_id));
-                        props.setMode('read-list');
                     }}></ReadContent>
              </Route>
-            <Route component={NotFound} />
         </Switch>
         );
     }
 
     return (
         <div className="section">
-            {props.mode}
             {getContent()}
         </div>
     )

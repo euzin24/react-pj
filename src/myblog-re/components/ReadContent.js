@@ -51,12 +51,7 @@ function ReadContent(props){
             return true;}
         else{return false;}
     }
-
-    const modifyContent=(e)=>{
-        e.preventDefault();
-        props.modifyContent();
-    }   
-
+    
     const deleteContent=(e)=>{
         e.preventDefault();
         if(window.confirm("정말 삭제하시겠습니까?")){
@@ -72,7 +67,7 @@ function ReadContent(props){
             <hr></hr>
             <p>{props.article.content}</p>
             <hr></hr>
-            <button onClick={modifyContent}><Link to={'/update/'+props.article.id}>수정</Link></button>
+            <button><Link to={'/update/'+props.article.id}>수정</Link></button>
             <button onClick={deleteContent}>삭제</button>
             <hr></hr>
             <p>{cat_title}의 다른 게시글</p>

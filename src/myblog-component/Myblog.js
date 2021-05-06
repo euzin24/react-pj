@@ -1,7 +1,7 @@
 import './Myblog.css';
 import { Component } from 'react';
-import Nav from './components-myblog/Nav'
-import Content from './components-myblog/Content';
+import Nav from './components/Nav'
+import Content from './components/Content';
 
 class Myblog extends Component{
     constructor(props){

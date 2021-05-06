@@ -63,13 +63,15 @@ function UpdateContent(props){
 
     const onSubmit=(e)=>{
         e.preventDefault();
+        let title=getCategoryTitle();
+
         if(window.confirm("게시물을 수정합니다")){
             if(e.target.title.value!=='' && e.target.content.value!==''){
                 props.updateArticle(
                     selectedCat, 
                     e.target.title.value, 
                     e.target.content.value);
-                history.goBack();
+                history.push('/'+title+'/'+props.article.id);
             }else{
                 alert("내용이 없습니다!");
             }
