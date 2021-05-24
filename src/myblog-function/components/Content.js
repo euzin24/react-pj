@@ -1,6 +1,6 @@
 import '../Myblog.css';
 import React, { useState } from 'react';
-import { Switch, Route, useParams } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import SetCategories from './SetCategories';
 import ReadList from './ReadList';
 import ReadContent from './ReadContent';
@@ -74,8 +74,7 @@ function Content(props){
                     data={_cats}
                     max_category_id={props.max_category_id}
                     update={(_content, _max)=>{
-                        props.updateCategory(_content, _max);
-                        alert("Updated!");}}
+                        props.updateCategory(_content, _max);}}
                     checkEmpty={(_id)=>{
                         var i=1;
                         articles.forEach((value)=>{

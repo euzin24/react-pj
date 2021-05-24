@@ -97,16 +97,21 @@ function SetCategories(props){
         return _list;
     }
 
+    const updateApply=(e)=>{
+        e.preventDefault();
+        if(window.confirm("변경사항 적용?")){
+            props.update(categories, maxCatId);
+            alert("적용되었습니다!");
+        }
+    }
+
     return(
         <div className="content">
             Set Categorie function
             <ul>
                 {showList()}
             </ul>
-            <button onClick={(e)=>{
-                e.preventDefault();
-                props.update(categories, maxCatId);
-                }}><Link to='/전체'>적용</Link></button>
+            <button onClick={updateApply}><Link to='/전체'>적용</Link></button>
             <button onClick={(e)=>{
                 e.preventDefault();
                 setMode('create');

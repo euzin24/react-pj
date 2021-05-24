@@ -4,11 +4,12 @@ import { Link, NavLink } from 'react-router-dom';
 import logo from '../../logo.svg';
 
 function Nav(props){
+    console.log("Nav rendered");
     const showList=()=>{
         let _list=[];
         let _path=null;
         for (let _data of props.data){
-            _path='/'+_data.title
+            _path=`/${_data.title}`;
             _list.push(
                 <li key={_data.id}>
                     <NavLink to={_path}>

@@ -1,6 +1,6 @@
 import '../Myblog.css';
 import React, { useState } from 'react';
-import { Link, useParams, useHistory } from 'react-router-dom';
+import { Link, useParams, useHistory, NavLink } from 'react-router-dom';
 
 function ReadContent(props){
     const [selectedPage, setSelectedPage]=useState(1);
@@ -8,10 +8,11 @@ function ReadContent(props){
     let history=useHistory();
 
     const showList=()=>{
-        var content=[];
-        var list=props.list;
-        var page_number=selectedPage;
-        var temp=null;
+        let content=[];
+        let list=props.list;
+        let page_number=selectedPage;
+        let temp=null;
+        let path;
 
         if(page_number*5>props.list.length){
             temp=list.slice((page_number-1)*5, props.list.length);
@@ -21,6 +22,7 @@ function ReadContent(props){
                         <span onClick={(e)=>{
                             e.preventDefault();
                             props.resetSelectedContent(element.id);
+                            console.log(path);
                         }}>{element.title}</span>
                     </li>
                 )
@@ -30,6 +32,12 @@ function ReadContent(props){
             temp.forEach(element => {
                 content.push(
                     <li key={element.id}>
+                        {/* <NavLink to={path}>
+                            <span onClick={(e)=>{
+                                e.preventDefault();
+                                props.resetSelectedContent(element.id);
+                            }}>{element.title}</span>
+                        </NavLink> */}
                         <span onClick={(e)=>{
                             e.preventDefault();
                             props.resetSelectedContent(element.id);

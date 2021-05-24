@@ -71,7 +71,8 @@ function UpdateContent(props){
                     selectedCat, 
                     e.target.title.value, 
                     e.target.content.value);
-                history.push('/'+title+'/'+props.article.id);
+                // history.push('/'+title+'/'+props.article.id);
+                history.push(`/${title}/${props.article.id}`);
             }else{
                 alert("내용이 없습니다!");
             }

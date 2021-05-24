@@ -1,16 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App1/App1';
+// import App from './App1/App1';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import App2 from './App2/App2';
 // import Myblog from './myblog-component/Myblog';
-import Myblogre from './myblog-re/Myblogre'
+import Myblogre from './myblog-function/Myblogre'
 
 ReactDOM.render(
   <BrowserRouter>
-      <Myblogre />
+      <App2 />
   </BrowserRouter>,
   document.getElementById('root')
 );

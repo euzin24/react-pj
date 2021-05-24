@@ -1,25 +1,26 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Route, Switch } from 'react-router-dom';
 import './App2.css';
 import Home from './components2/Home';
 import About from './components2/About';
 import Contact from './components2/Contact';
 import Param from './components2/Param';
-import data from './components2/data.json'
+// import data from './components2/data.json'
 
 function NotFound(){
   return <div>NOT FOUND</div>
 }
 
 function App(){  
-    //destructing
+    //destructuring
     const [arr, changeArr]=useState({
       title:'useState',
       sub:'Use state with useState() by destructing'
       });
     const [flag, setFlag]=useState(true);
     const [number, setNumber]=useState(0);
-    
+    let JSONdata=null;
+
     const method1 = (num) => {
       return <p>Current state number is {num}</p>
     }
@@ -39,7 +40,7 @@ function App(){
       // )
 
       if(flag===true){
-        changeArr({title:'changeArr', sub:'the function which can set States returned by useState method'});
+        changeArr({title:'changeArr', sub:'the function which can set States returned by useState API'});
         setFlag(false);
       }
       else{
@@ -48,23 +49,45 @@ function App(){
       }
     }
 
-    // useEffect : 서버에서 데이터 fetch 및 처리, 클래스 컴포넌트의 componentDidMount 기능
+    // const newBatterList=JSONdata.batters.batter.map((elem, index)=>{
+    //   return(
+    //     <li key={index}>
+    //       id: {elem.id}, type: {elem.type}
+    //     </li>
+    //   );
+    // });
 
-    const newBatterList=data.batters.batter.map((elem, index)=>{
-      return(
-        <li key={index}>
-          id: {elem.id}, type: {elem.type}
-        </li>
-      );
-    });
-    const newToppingList=data.topping.map((elem, index)=>{
-      return(
-        <li key={index}>
-          id: {elem.id}, type: {elem.type}
-        </li>
-      );
-    });
+    // const newToppingList=JSONdata.topping.map((elem, index)=>{
+    //   return(
+    //     <li key={index}>
+    //       id: {elem.id}, type: {elem.type}
+    //     </li>
+    //   );
+    // });
 
+    // useEffect = 현재 컴포넌트의 state값이 변경될때 호출 : 서버에서 데이터 fetch 및 처리
+    //클래스 컴포넌트의 componentDidMount, ~
+    useEffect(()=>{
+      console.log("App2 Mount");
+      //API 요청, 반복 작업 등
+      fetch('./data.json')
+      // .then(res=>console.log(res))
+      .then(res=>res.json())
+      .then(data=>{
+        JSONdata=data
+        console.log(JSONdata);
+      });
+
+      return()=>console.log("App2 Unmount");//never happen
+    }, []) //deps로 빈 객체 : 최초실행 후 재실행 X
+
+    useEffect(()=>{
+      console.log(`current state number is ${number}`);
+      return()=>{
+        console.log(`*latest state number is ${number}`);
+      }
+    },[number]);
+    
     return (
       <div className="App">
           <nav className="black-nav">Hooks & React Routing</nav>
@@ -84,7 +107,7 @@ function App(){
             </Switch>
             <hr></hr>
 
-            {number}
+            <p>{number}</p>
             <span>
               <button onClick={()=>setNumber(number-1)}>
                 -1
@@ -98,10 +121,10 @@ function App(){
 
             <div>
               <h3>READ JSON DATA</h3>
-              id: {data.id}<br></br>
-              type: {data.type}<br></br>
-              name: {data.cake}<br></br>
-              ppu: {data.ppu}<br></br><br></br>
+              {/* id: {JSONdata.id}<br></br>
+              type: {JSONdata.type}<br></br>
+              name: {JSONdata.cake}<br></br>
+              ppu: {JSONdata.ppu}<br></br><br></br>
               <b>batters</b>
               <ul>
                 {newBatterList}
@@ -109,7 +132,7 @@ function App(){
               <b>topping</b>
               <ul>
                 {newToppingList}
-              </ul>
+              </ul> */}
             </div>
           </div>
       </div>

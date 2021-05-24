@@ -61,7 +61,7 @@ function CreateContent(props){
                     selectedCat, 
                     e.target.title.value, 
                     e.target.content.value);
-                history.push('/'+title+'/'+(props.max_content_id+1));
+                history.push(`/${title}/${props.max_content_id+1}`);
             }else{
                 alert("내용이 없습니다!");
             }

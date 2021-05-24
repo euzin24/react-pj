@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 const date=new Date().toLocaleDateString()+' ';
 const time=new Date().toLocaleTimeString();
@@ -10,6 +11,7 @@ function Home(){
     // const time=new Date().toLocaleTimeString();
     const new_id=Math.floor((Math.random()*100)-1);
     const path='/param/'+new_id;
+
     return(
         <header>
             <h2> This is Home Page</h2>
