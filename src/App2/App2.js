@@ -29,7 +29,6 @@ function App(){
       e.preventDefault();
 
       // 소괄호(): 리턴값, 중괄호{}: 구역 나눔
-      // 아래 코드 실행 시 오류남 중괄호 사용 x
       // flag ? (
       //   changeArr({title:'changeArr', sub:'the function which can set States returned by useState method'}),
       //   setFlag(false)  

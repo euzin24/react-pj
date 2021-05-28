@@ -2,6 +2,7 @@ import './Myblog.css';
 import React, { useState } from 'react';
 import Nav from './components/Nav'
 import Content from './components/Content';
+import Test from './Test';
 
 function Myblog(){
     const [maxCat, setMaxCat]=useState(3)
@@ -16,7 +17,7 @@ function Myblog(){
     
     return(
         <div className="App">
-            <Nav 
+            {/* <Nav 
                 name={profile.name} 
                 desc={profile.desc}
                 data={categories}
@@ -35,7 +36,8 @@ function Myblog(){
                     setSelectedCat(0);
                     SetCategories(_content);
                 }}
-                ></Content>
+                ></Content> */}
+            <Test></Test>
         </div>
     );
 }

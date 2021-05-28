@@ -7,11 +7,18 @@ import { BrowserRouter } from 'react-router-dom';
 import App2 from './App2/App2';
 // import Myblog from './myblog-component/Myblog';
 import Myblogre from './myblog-function/Myblogre'
+import Example from './rct-rdx-template-example/App'
+import { Provider } from 'react-redux';
+// import { store } from './rct-rdx-template-example/app/store';
+import { store } from './myblog-function/store'
 
 ReactDOM.render(
-  <BrowserRouter>
-      <App2 />
-  </BrowserRouter>,
+  <Provider store={store}>
+    <BrowserRouter>
+        <Myblogre></Myblogre>
+    </BrowserRouter>
+  </Provider>
+  ,
   document.getElementById('root')
 );
 
