@@ -2,13 +2,12 @@ import './Myblog.css';
 import React, { useState } from 'react';
 import Nav from './components/Nav'
 import Content from './components/Content';
-import Test from './Test';
 
 function Myblog(){
     const [maxCat, setMaxCat]=useState(3)
     // const [mode, setMode]=useState('read-list');
     const [selectedCat, setSelectedCat]=useState(0);
-    const [profile, setProfile]=useState({name:'Euzin24', desc:'개발 블로그'});
+    const [profile, setProfile]=useState({name:'Euzin24', desc:''});
     const [categories, SetCategories]=useState(
         [{id:0, title:'전체'}, 
         {id:1, title:'카테고리1'}, 
@@ -17,13 +16,7 @@ function Myblog(){
     
     return(
         <div className="App">
-            {/* <Nav 
-                name={profile.name} 
-                desc={profile.desc}
-                data={categories}
-                setSelectedCategory={(_id)=>{
-                    setSelectedCat(_id);
-                }}></Nav>
+            <Nav></Nav>
             <Content 
                 selected_cat={selectedCat}
                 cats={categories}
@@ -36,8 +29,8 @@ function Myblog(){
                     setSelectedCat(0);
                     SetCategories(_content);
                 }}
-                ></Content> */}
-            <Test></Test>
+                ></Content>
+            {/* <Test></Test> */}
         </div>
     );
 }

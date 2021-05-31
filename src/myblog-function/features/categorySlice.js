@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
+import {createSelector} from 'reselect';
 
 const initialState={
     categories: [{id:0, title:'전체'},
@@ -13,25 +14,34 @@ export const categorySlice = createSlice({
     name: 'category',
     initialState,
     reducers: {
-        create_cat: (state, action)=>{
-            console.log(`create ${action.payload}`);
-        },
         update_cat: (state, action)=>{
             console.log("update");
-        },
-        delete_cat: (state)=>{
-            console.log("delete");
+            console.log("catData ", action.payload);
+            console.log("maxCatId ", action.payload.maxCatId);
+            state.categories = action.payload.catData;
+            state.maxCategoryNumber=action.payload.maxCatId;
         },
         set_selected_category: (state, action)=>{
-            state.selectedCat = action.payload;
+            state.selectedCat = Number(action.payload);
         }
     }
 });
 
-
 //returning current state value
-export const selectedCat = (state) => state.rootReducer.category.selectedCat;
+export const getCategories=(state)=>state.rootReducer.category.categories;
+export const selectedCat=(state)=>state.rootReducer.category.selectedCat;
+export const maxCategoryNumber=(state)=> state.rootReducer.category.maxCategoryNumber;
 
-export const { create_cat, update_cat, delete_cat, set_selected_category } = categorySlice.actions;
+export const selectCategory = (num) => createSelector(
+    getCategories,
+    categories=>categories.filter(item=>item.id!==num)
+)
+
+export const getCategoryTitle = (id) => createSelector(
+    getCategories,
+    categories=>categories.find(item=>item.id===id).title
+)
+
+export const { update_cat, set_selected_category } = categorySlice.actions;
 
 export default categorySlice.reducer;

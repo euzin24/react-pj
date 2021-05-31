@@ -1,13 +1,17 @@
 import '../Myblog.css';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { getCategories, update_cat } from '../features/categorySlice'
 
 function SetCategories(props){
     // let maxCatId = props.max_category_id;
-    const [maxCatId, setMax]=useState(props.max_category_id);
     const [mode, setMode]=useState('default');
     const [updateCat, setUpdateCat]=useState(0);
-    const [categories, setCats]=useState(props.data);
+    const [maxCatId, setMax]=useState(props.max_category_id);
+    const [catData, setCats]=useState(props.data);
+    // const [catData, setCats]=useState(useSelector(getCategories));
+    const dispatch = useDispatch();
 
     const showCreateForm=()=>{
         let _content=null;
@@ -21,7 +25,7 @@ function SetCategories(props){
                         setMode('default');
                         var _max=maxCatId+1;
                         setMax(_max);
-                        var _new=categories.concat(
+                        var _new=catData.concat(
                             {id:_max, title:e.target.category.value});
                         setCats(_new);
                     }else{
@@ -39,9 +43,9 @@ function SetCategories(props){
 
     const showList=()=>{
         var _list=[];
-        var temp=Array.from(categories);
+        var temp=Array.from(catData);
 
-        for (let _data of categories){
+        for (let _data of catData){
             if(_data.id!==0){
                 if(_data.id===updateCat && mode==='update'){
                     _list.push(
@@ -83,8 +87,8 @@ function SetCategories(props){
                                 e.preventDefault();
                                 if(window.confirm(_data.title+"을 삭제합니다")){
                                     if(props.checkEmpty(_data.id)){
-                                        var _categories=categories;
-                                        setCats(_categories.filter(cat => cat.id!==_data.id));
+                                        var _catData=catData;
+                                        setCats(_catData.filter(cat => cat.id!==_data.id));
                                     }else{
                                         alert("카테고리 내 게시글이 존재합니다!");
                                     }
@@ -100,7 +104,8 @@ function SetCategories(props){
     const updateApply=(e)=>{
         e.preventDefault();
         if(window.confirm("변경사항 적용?")){
-            props.update(categories, maxCatId);
+            props.update(catData, maxCatId);
+            dispatch(update_cat({catData, maxCatId}));
             alert("적용되었습니다!");
         }
     }

@@ -2,24 +2,32 @@ import '../Myblog.css';
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import logo from '../../logo.svg';
+import {getCategories, set_selected_category} from '../features/categorySlice';
+import {useDispatch, useSelector} from 'react-redux';
 
 function Nav(props){
-    console.log("Nav rendered");
+    const data=useSelector(getCategories);
+    const dispatch = useDispatch();
+
     const showList=()=>{
         let _list=[];
         let _path=null;
-        for (let _data of props.data){
+
+        for (let _data of data){
             _path=`/${_data.title}`;
             _list.push(
                 <li key={_data.id}>
                     <NavLink to={_path}>
                         <span onClick={(_id)=>{
-                            props.setSelectedCategory(_data.id);}}>
+                            // props.setSelectedCategory(_data.id);
+                            dispatch(set_selected_category(_data.id));
+                            }}>
                             {_data.title}
                         </span>
                     </NavLink>
                 </li>);
         }
+        
         return _list;
     }
 
@@ -29,8 +37,8 @@ function Nav(props){
                 <Link to='/'>
                     <img className="profile-img" alt="logo" src={logo}></img>
                 </Link>
-                <h3>{props.name}</h3>
-                <p>{props.desc}</p>
+                <h3>Euzin24</h3>
+                <p>개발 블로그</p>
             </header>
             <nav>
                 <h4>Categories</h4>

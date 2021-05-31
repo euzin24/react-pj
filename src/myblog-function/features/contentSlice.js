@@ -1,4 +1,5 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit'; 
+import {createSelector} from 'reselect';
 
 const initialState={
     content: [{id:1, cat:1, title:'제목1', content:'내용1'},
@@ -26,14 +27,22 @@ export const contentSlice = createSlice({
         delete_con: (state)=>{
             console.log("delete content");
         },
+        check_empty: (state, action)=>{
+            console.log("action payload"+action.payload);
+            return action.payload;
+        }
     }
 });
 
-
 //returning current state value
 export const selectedCon = (state) => state.rootReducer.content.selectedCon;
-export const show_data = (state) => state.rootReducer.content.content;
+export const getContent = (state) => state.rootReducer.content.content;
 
-export const { create_con, update_con, delete_con } = contentSlice.actions;
+export const getContentByCategoryId = (id) => createSelector(
+    getContent,
+    (content)=>content.filter(item=>id?item.cat===id:item)
+)
+
+export const { create_con, update_con, delete_con, check_empty } = contentSlice.actions;
 
 export default contentSlice.reducer;
