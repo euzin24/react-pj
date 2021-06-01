@@ -13,15 +13,30 @@ import { selectedCon,
     update_con,
     delete_con,
     getContent,
-    getContentByCategoryId } from './features/contentSlice'
+    getContentByCategoryId} from './features/contentSlice'
+
+function PropsTest(props){
+    console.log(props.data[1].title);
+    // let categories=props.data;
+    // categories[0].title="dksjdkajd";
+    // 당연히 props값을 읽어오는 것도 안됨
+    return (
+        <div>
+            props test
+        </div>
+    )
+}
 
 export default function Test(){
     const dispatch = useDispatch();
     const category = useSelector(selectedCat);
-    const data = useSelector(getCategories);
-    const [number, setNumber] = useState(1)
     const filteredContent=useSelector(getContentByCategoryId(category));
-    const categoryTitle=useSelector(getCategoryTitle(category));
+    const [number, setNumber] = useState(1)
+    const data = useSelector(getCategories);
+    // console.log(data);
+    // var temp=data;
+    // temp[1].title="카테고리 1이지롱.";
+    // console.log(temp[1].title);
 
     return (
     <div>
@@ -38,40 +53,36 @@ export default function Test(){
         </input>
         <button onClick={()=>dispatch(set_selected_category(number))}>apply</button>
         <hr></hr>
+            
         <h3>
             Contents
         </h3>
-        <button onClick={()=>dispatch(create_con("#"))}>create</button>
-        <button onClick={()=>dispatch(update_con())}>update</button>
-        <button onClick={()=>dispatch(delete_con())}>delete</button>
+        <form
+            onSubmit={(e)=>{
+                e.preventDefault();
+                dispatch(create_con(
+                    {cat:category,
+                    title:e.target.title.value,
+                    content:e.target.content.value}));
+            }}>
+            <input name='title' placeholder="제목"></input>
+            <input name='content' placeholder="내용"></input>
+            <button type='submit'>create</button>
+        </form>
         
-        <ul>
-            {data.map((value)=>{
-                return(
-                    <li key={value.id}>
-                        <span onClick={(e)=>{
-                            e.preventDefault()
-                            dispatch(set_selected_category(value.id));
-                            setNumber(value.id);
-                        }}>
-                            {value.title}</span>
-                    </li>
-                )
-            })}
-        </ul>
-
-        {categoryTitle}
-
-        <ul>
-            {filteredContent.map((value)=>{
-                return (
-                    <li key={value.id}>
-                        <h3>{value.title}</h3>
-                        <p>{value.content}</p>
-                    </li>
-                )
-            })}
-        </ul>
+        {/* <button onClick={()=>dispatch(delete_con())}>delete</button> */}
+        
+        {filteredContent.map((value)=>{
+            return (
+                <li key={value.id}>
+                    {value.title}/ 
+                    <span>{value.content}
+                        <button onClick={()=>dispatch(delete_con(value.id))}>Delete
+                        </button></span>
+                </li>
+            );
+        })}        
+        
     </div>
     )
 }

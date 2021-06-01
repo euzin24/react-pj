@@ -18,19 +18,19 @@ export const contentSlice = createSlice({
     initialState,
     reducers: {
         create_con: (state, action)=>{
-            console.log(`create content ${action.payload}`);
-            console.log(state.content);
+            state.maxContentNumber += 1
+            state.content = state.content.concat(
+                {id:state.maxContentNumber,
+                cat:action.payload.cat,
+                title:action.payload.title,
+                content:action.payload.content});
         },
         update_con: (state, action)=>{
             console.log("update content");
         },
-        delete_con: (state)=>{
-            console.log("delete content");
+        delete_con: (state, action)=>{
+            state.content = state.content.filter(item=>item.id!==action.payload)
         },
-        check_empty: (state, action)=>{
-            console.log("action payload"+action.payload);
-            return action.payload;
-        }
     }
 });
 
@@ -40,7 +40,7 @@ export const getContent = (state) => state.rootReducer.content.content;
 
 export const getContentByCategoryId = (id) => createSelector(
     getContent,
-    (content)=>content.filter(item=>id?item.cat===id:item)
+    (content)=>content.filter(item=>id? item.cat===id : item)
 )
 
 export const { create_con, update_con, delete_con, check_empty } = contentSlice.actions;

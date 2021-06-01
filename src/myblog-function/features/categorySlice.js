@@ -39,6 +39,9 @@ export const getCategoryTitle = (id) => createSelector(
     categories=>categories.find(item=>item.id===id).title
 )
 
-export const { update_cat, set_selected_category } = categorySlice.actions;
+export const {
+    update_cat,
+    set_selected_category,
+    increase_maxCategoryNumber } = categorySlice.actions;
 
 export default categorySlice.reducer;

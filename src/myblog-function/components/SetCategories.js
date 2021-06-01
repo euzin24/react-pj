@@ -104,7 +104,6 @@ function SetCategories(props){
     const updateApply=(e)=>{
         e.preventDefault();
         if(window.confirm("변경사항 적용?")){
-            props.update(catData, maxCatId);
             dispatch(update_cat({catData, maxCatId}));
             alert("적용되었습니다!");
         }
