@@ -7,14 +7,15 @@ import { selectedCat,
     set_selected_category } from '../features/categorySlice';
 import { create_con, maxContentNumber } from '../features/contentSlice';
 
-function CreateContent(){
+function CreateContent(props){
     // const [selectedCat, setSelectedCat]=useState(props.selected_category);
+    const dispatch = useDispatch();
+    const history=useHistory();
+    
     const [showMenu, setMenu]=useState(false);
     const cat_id=useSelector(selectedCat);
     const cats=useSelector(getCategories);
     const max_content_number=useSelector(maxContentNumber);
-    const dispatch = useDispatch();
-    const history=useHistory();
     
     const menuForm=(e)=>{
         e.preventDefault();

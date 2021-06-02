@@ -29,8 +29,15 @@ export const contentSlice = createSlice({
         },
         update_con: (state, action)=>{
             console.log("update content");
+            state.content.forEach((value=>{
+                if(value.id===state.selectedCon){
+                    value.cat = action.payload.cat;
+                    value.title = action.payload.title;
+                    value.content = action.payload.content;
+                }
+            }))
         },
-        delete_con: (state, action)=>{
+        delete_con: (state)=>{
             state.content = state.content.filter(item=>item.id!==state.selectedCon)
             state.selectedCon = 0;
         },
@@ -50,10 +57,19 @@ export const getContentByCategoryId = (id) => createSelector(
     (content)=>content.filter(item=>id? item.cat===id : item)
 )
 
-export const getContentInfoByContentId = (id) => createSelector(
+export const getContentInfoByContentId = (_id) => createSelector(
     getContent,
-    (content)=>content.find(item=>item.id===id)
+    (content)=>
+        _id?
+        content.find(item=>item.id===_id)
+        :
+        {title:null, content:null}
 )
+
+// export const checkEmpty = (_id) => createSelector(
+//     getContent,
+//     (content)=>content.filter(item=>item.cat===_id).length
+// )
 
 export const { create_con,
     update_con,

@@ -1,19 +1,20 @@
 import '../Myblog.css';
 import React, { useState } from 'react';
-import { Link, useParams, useHistory, NavLink } from 'react-router-dom';
+import { Link, useParams, useHistory } from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import {selectedCat} from '../features/categorySlice';
 import {selectedCon,
+    getContentInfoByContentId,
     getContentByCategoryId,
     set_selected_content,
-    delete_con,
-    getContentInfoByContentId} from '../features/contentSlice';
+    delete_con} from '../features/contentSlice';
 
-function ReadContent(){
+function ReadContent(props){
     const [selectedPage, setSelectedPage]=useState(1);
     const selectedContentId = useSelector(selectedCon);
     const selectedCategoryId=useSelector(selectedCat);
     const contentList = useSelector(getContentByCategoryId(selectedCategoryId));
+    const contentInfo = useSelector(getContentInfoByContentId(selectedContentId));
     const dispatch = useDispatch()
     let cat_title=useParams().cat_title;
     let history=useHistory();
@@ -21,7 +22,6 @@ function ReadContent(){
     const showList=()=>{
         let content=[];
         let temp=null;
-        let path;
 
         if(selectedPage*5 > contentList.length){
             temp=contentList.slice((selectedPage-1)*5, contentList.length);
@@ -30,7 +30,6 @@ function ReadContent(){
                     <li key={element.id}>
                         <span onClick={(e)=>{
                             e.preventDefault();
-                            // props.resetSelectedContent();
                             dispatch(set_selected_content(element.id));
                         }}>{element.title}</span>
                     </li>
@@ -41,15 +40,8 @@ function ReadContent(){
             temp.forEach(element => {
                 content.push(
                     <li key={element.id}>
-                        {/* <NavLink to={path}>
-                            <span onClick={(e)=>{
-                                e.preventDefault();
-                                props.resetSelectedContent(element.id);
-                            }}>{element.title}</span>
-                        </NavLink> */}
                         <span onClick={(e)=>{
                             e.preventDefault();
-                            // props.resetSelectedContent(element.id);
                             dispatch(set_selected_content(element.id));
                         }}>{element.title}</span>
                     </li>
@@ -81,14 +73,12 @@ function ReadContent(){
         }
     }
     
-    const contentInfo =
-        selectedContentId ? 
-        contentList.find(item=>item.id===selectedContentId)
-        :
-        {title:null, content:null}
-
-    console.log(contentInfo);
-
+    // const contentInfo =
+    //     selectedContentId ? 
+    //     contentList.find(item=>item.id===selectedContentId)
+    //     :
+    //     {title:null, content:null}
+    
     return(
         <div className="content">
             <h2>{contentInfo.title}</h2>

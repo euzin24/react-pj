@@ -2,16 +2,20 @@ import '../Myblog.css';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getCategories, update_cat } from '../features/categorySlice'
+import { getCategories, maxCategoryNumber, update_cat } from '../features/categorySlice'
+import { getContent } from '../features/contentSlice';
+import _ from 'lodash';
 
 function SetCategories(props){
     // let maxCatId = props.max_category_id;
+    const dispatch = useDispatch();
     const [mode, setMode]=useState('default');
     const [updateCat, setUpdateCat]=useState(0);
-    const [maxCatId, setMax]=useState(props.max_category_id);
-    const [catData, setCats]=useState(props.data);
+    // const [catData, setCats]=useState(props.data);
     // const [catData, setCats]=useState(useSelector(getCategories));
-    const dispatch = useDispatch();
+    const [catData, setCats]=useState(_.cloneDeep(useSelector(getCategories)));
+    const [maxCatId, setMax]=useState(_.cloneDeep(useSelector(maxCategoryNumber)));
+    const conData=useSelector(getContent);
 
     const showCreateForm=()=>{
         let _content=null;
@@ -23,11 +27,10 @@ function SetCategories(props){
                     e.preventDefault();
                     if(e.target.category.value!==''){
                         setMode('default');
-                        var _max=maxCatId+1;
+                        let _max=maxCatId+1
                         setMax(_max);
-                        var _new=catData.concat(
-                            {id:_max, title:e.target.category.value});
-                        setCats(_new);
+                        setCats(catData.concat(
+                            {id:_max, title:e.target.category.value}));
                     }else{
                         alert("카테고리 명을 입력해주세요");
                     }
@@ -39,6 +42,10 @@ function SetCategories(props){
             </form>;
         }
         return _content;
+    }
+
+    const checkEmpty=(_id)=>{
+        return conData.filter(item=>item.cat===_id).length ? false : true
     }
 
     const showList=()=>{
@@ -72,7 +79,7 @@ function SetCategories(props){
                                 }}>취소</button>
                             </form>
                         </li>
-                        );
+                    );
                 }
                 else{
                     _list.push(
@@ -86,15 +93,15 @@ function SetCategories(props){
                             <button onClick={(e)=>{
                                 e.preventDefault();
                                 if(window.confirm(_data.title+"을 삭제합니다")){
-                                    if(props.checkEmpty(_data.id)){
-                                        var _catData=catData;
-                                        setCats(_catData.filter(cat => cat.id!==_data.id));
+                                    if(checkEmpty(_data.id)){
+                                        setCats(catData.filter(cat => cat.id!==_data.id));
                                     }else{
                                         alert("카테고리 내 게시글이 존재합니다!");
                                     }
                                 }
                             }}>삭제</button>
-                        </li>);
+                        </li>
+                    );
                 }
             } 
         }
@@ -104,7 +111,9 @@ function SetCategories(props){
     const updateApply=(e)=>{
         e.preventDefault();
         if(window.confirm("변경사항 적용?")){
-            dispatch(update_cat({catData, maxCatId}));
+            dispatch(update_cat(
+                {data: catData,
+                maxCat:maxCatId}));
             alert("적용되었습니다!");
         }
     }
@@ -115,7 +124,9 @@ function SetCategories(props){
             <ul>
                 {showList()}
             </ul>
-            <button onClick={updateApply}><Link to='/전체'>적용</Link></button>
+            <button onClick={updateApply}>
+                <Link to='/전체'>적용</Link>
+            </button>
             <button onClick={(e)=>{
                 e.preventDefault();
                 setMode('create');

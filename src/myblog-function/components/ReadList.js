@@ -1,6 +1,6 @@
 import '../Myblog.css';
 import React from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectedCat, getCategoryTitle } from '../features/categorySlice';
 import { getContentByCategoryId,set_selected_content } from '../features/contentSlice'

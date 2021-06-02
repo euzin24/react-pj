@@ -15,8 +15,8 @@ export const categorySlice = createSlice({
     initialState,
     reducers: {
         update_cat: (state, action)=>{
-            state.categories = action.payload.catData;
-            state.maxCategoryNumber=action.payload.maxCatId;
+            state.categories = action.payload.data;
+            state.maxCategoryNumber = action.payload.maxCat;
         },
         set_selected_category: (state, action)=>{
             state.selectedCat = Number(action.payload);

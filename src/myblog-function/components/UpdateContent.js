@@ -1,55 +1,49 @@
 import '../Myblog.css';
 import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectedCat, 
     getCategories, 
     set_selected_category } from '../features/categorySlice';
 import { getContentInfoByContentId,
     update_con } from '../features/contentSlice';
+import _ from 'lodash';
 
 function UpdateContent(props){
-    const [selectedCat, setSelectedCat]=useState(props.article.cat)
-    //store에서 selectedCon이 바뀌고 렌더링되어야함
-    const [showMenu, setMenu]=useState(false);
-    const [title, setTitle]=useState(props.article.title);
-    const [content, setContent]=useState(props.article.content);
-    // const cat_id=useSelector(selectedCat);
-    // const cats=useSelector(getCategories);
-    // const contentInfo = useSelector(getContentInfoByContentId());
-    // const dispatch = useDispatch();
+    // const [selected_cat_id, setSelectedCat]=useState(props.article.cat);
+    const dispatch = useDispatch();
     const history=useHistory();
+
+    const [showMenu, setMenu]=useState(false);
+    const cat_id=useSelector(selectedCat);
+    const cats=useSelector(getCategories);
+    const contentInfo=_.cloneDeep(
+        useSelector(getContentInfoByContentId(Number(useParams().id))));
+    const [title, setTitle]=useState(contentInfo.title);
+    const [content, setContent]=useState(contentInfo.content);
 
     const inputTitleHandler=(e)=>{
         setTitle(e.target.value);
     }
 
     const inputContentHandler=(e)=>{
-        setContent(e.target.value)
+        setContent(e.target.value);
     }
 
     const menuForm=(e)=>{
         e.preventDefault();
-        if (showMenu===false){
-            setMenu(true);
-        }else{
-            setMenu(false);
-        }
+        showMenu? setMenu(false):setMenu(true);
     }
 
     const getCategoryTitle=()=>{
-        for(var i=0; i<props.cats.length; i++){
-            if(selectedCat===props.cats[i].id){
-                return props.cats[i].title;
-            }
-        }
+        return cats.find(item=>item.id===cat_id).title;
     }
     
     const showCategories=()=>{
         var list=[];
         if(showMenu===true){
-            props.cats.forEach(element => {
-                if(element.id===selectedCat){
+            cats.forEach(element => {
+                if(element.id===cat_id){
                     list.push(
                         <li key={element.id} style={{backgroundColor:"#cccccc"}}>
                             {element.title}
@@ -60,7 +54,7 @@ function UpdateContent(props){
                         <li key={element.id}
                             onClick={(e)=>{
                                 e.preventDefault();
-                                setSelectedCat(element.id);
+                                dispatch(set_selected_category(element.id));
                                 setMenu(false);
                                 }}>
                             {element.title}
@@ -72,18 +66,22 @@ function UpdateContent(props){
         return list;
     }
 
+    const id=useParams().id;
     const onSubmit=(e)=>{
         e.preventDefault();
-        let title=getCategoryTitle();
-
+        const title=getCategoryTitle();
         if(window.confirm("게시물을 수정합니다")){
             if(e.target.title.value!=='' && e.target.content.value!==''){
-                props.updateArticle(
-                    selectedCat, 
-                    e.target.title.value, 
-                    e.target.content.value);
-                // history.push('/'+title+'/'+props.article.id);
-                history.push(`/${title}/${props.article.id}`);
+                // props.updateArticle(
+                //     selected_cat_id, 
+                //     e.target.title.value, 
+                //     e.target.content.value);
+                dispatch(update_con({
+                    cat:cat_id,
+                    title:e.target.title.value,
+                    content:e.target.content.value
+                }));
+                history.push(`/${title}/${id}`);
             }else{
                 alert("내용이 없습니다!");
             }

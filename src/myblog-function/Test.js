@@ -2,34 +2,28 @@ import React, {useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectedCat,
 // create_cat,
-update_cat,
 // delete_cat,
 set_selected_category, 
-getCategories, 
-selectCategory,
-getCategoryTitle} from './features/categorySlice';
-import { selectedCon,
-    create_con,
-    update_con,
+getCategories } from './features/categorySlice';
+import { create_con,
     delete_con,
-    getContent,
-    getContentByCategoryId} from './features/contentSlice'
+    getContentByCategoryId,
+    getContentInfoByContentId} from './features/contentSlice'
 import _ from 'lodash';
 
 export default function Test(){
     const dispatch = useDispatch();
     const category = useSelector(selectedCat);
     const filteredContent=useSelector(getContentByCategoryId(category));
-    const [number, setNumber] = useState(1)
+    const [number, setNumber] = useState(1);
     const data = useSelector(getCategories);
-    
+    const contentInfo = useSelector(getContentInfoByContentId(0));
+    // console.log(contentInfo);
     // let temp=JSON.parse(JSON.stringify(data));
-    let temp=_.cloneDeep(data);
-    console.log(temp);
-    temp[1].title="카테고리 1이지롱.";
-    console.log(temp[1].title);
-
-
+    // let temp=_.cloneDeep(data);
+    // console.log(temp);
+    // temp[1].title="카테고리 1이지롱.";
+    // console.log(temp[1].title);
     return (
     <div>
         <h3>
@@ -74,7 +68,6 @@ export default function Test(){
                 </li>
             );
         })}        
-        
     </div>
     )
 }
