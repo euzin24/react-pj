@@ -5,15 +5,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import { selectedCat, 
     getCategories, 
     set_selected_category } from '../features/categorySlice';
-import { create_con } from '../features/contentSlice';
+import { create_con, maxContentNumber } from '../features/contentSlice';
 
-function CreateContent(props){
+function CreateContent(){
     // const [selectedCat, setSelectedCat]=useState(props.selected_category);
     const [showMenu, setMenu]=useState(false);
     const cat_id=useSelector(selectedCat);
     const cats=useSelector(getCategories);
+    const max_content_number=useSelector(maxContentNumber);
     const dispatch = useDispatch();
-    let history=useHistory();
+    const history=useHistory();
     
     const menuForm=(e)=>{
         e.preventDefault();
@@ -69,7 +70,7 @@ function CreateContent(props){
                         content:e.target.content.value}
                     )
                 );
-                history.push(`/${title}/${props.max_content_id+1}`);
+                history.push(`/${title}/${max_content_number+1}`);
             }else{
                 alert("내용이 없습니다!");
             }

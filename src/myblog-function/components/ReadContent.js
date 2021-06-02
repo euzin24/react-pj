@@ -1,34 +1,43 @@
 import '../Myblog.css';
 import React, { useState } from 'react';
 import { Link, useParams, useHistory, NavLink } from 'react-router-dom';
+import {useSelector, useDispatch} from 'react-redux';
+import {selectedCat} from '../features/categorySlice';
+import {selectedCon,
+    getContentByCategoryId,
+    set_selected_content,
+    delete_con,
+    getContentInfoByContentId} from '../features/contentSlice';
 
-function ReadContent(props){
+function ReadContent(){
     const [selectedPage, setSelectedPage]=useState(1);
+    const selectedContentId = useSelector(selectedCon);
+    const selectedCategoryId=useSelector(selectedCat);
+    const contentList = useSelector(getContentByCategoryId(selectedCategoryId));
+    const dispatch = useDispatch()
     let cat_title=useParams().cat_title;
     let history=useHistory();
 
     const showList=()=>{
         let content=[];
-        let list=props.list;
-        let page_number=selectedPage;
         let temp=null;
         let path;
 
-        if(page_number*5>props.list.length){
-            temp=list.slice((page_number-1)*5, props.list.length);
+        if(selectedPage*5 > contentList.length){
+            temp=contentList.slice((selectedPage-1)*5, contentList.length);
             temp.forEach(element => {
                 content.push(
                     <li key={element.id}>
                         <span onClick={(e)=>{
                             e.preventDefault();
-                            props.resetSelectedContent(element.id);
-                            console.log(path);
+                            // props.resetSelectedContent();
+                            dispatch(set_selected_content(element.id));
                         }}>{element.title}</span>
                     </li>
                 )
             });
         }else{
-            temp=list.slice((page_number-1)*5, page_number*5);
+            temp=contentList.slice((selectedPage-1)*5, selectedPage*5);
             temp.forEach(element => {
                 content.push(
                     <li key={element.id}>
@@ -40,12 +49,14 @@ function ReadContent(props){
                         </NavLink> */}
                         <span onClick={(e)=>{
                             e.preventDefault();
-                            props.resetSelectedContent(element.id);
+                            // props.resetSelectedContent(element.id);
+                            dispatch(set_selected_content(element.id));
                         }}>{element.title}</span>
                     </li>
                 )
             });
         }
+
         return content;
     }
 
@@ -55,7 +66,7 @@ function ReadContent(props){
     }
 
     const nextBtnControl=()=>{
-        if((selectedPage*5)>=parseInt(props.list.length)){
+        if((selectedPage*5)>=parseInt(contentList.length)){
             return true;}
         else{return false;}
     }
@@ -63,22 +74,31 @@ function ReadContent(props){
     const deleteContent=(e)=>{
         e.preventDefault();
         if(window.confirm("정말 삭제하시겠습니까?")){
-            props.deleteContent(props.article.id);
+            // props.deleteContent(props.article.id);
+            dispatch(delete_con());
             alert("삭제되었습니다!");
-            history.goBack();
+            history.push(`/${cat_title}`);
         }
     }
+    
+    const contentInfo =
+        selectedContentId ? 
+        contentList.find(item=>item.id===selectedContentId)
+        :
+        {title:null, content:null}
+
+    console.log(contentInfo);
 
     return(
         <div className="content">
-            <h2>{props.article.title}</h2>
+            <h2>{contentInfo.title}</h2>
             <hr></hr>
-            <p>{props.article.content}</p>
+            <p>{contentInfo.content}</p>
             <hr></hr>
-            <button><Link to={'/update/'+props.article.id}>수정</Link></button>
+            <button><Link to={`/update/${selectedContentId}`}>수정</Link></button>
             <button onClick={deleteContent}>삭제</button>
             <hr></hr>
-            <p>{cat_title}의 다른 게시글</p>
+            <p>"{cat_title}"의 다른 게시글</p>
             
             <ul>
                 {showList()}

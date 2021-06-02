@@ -1,13 +1,24 @@
 import '../Myblog.css';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectedCat, 
+    getCategories, 
+    set_selected_category } from '../features/categorySlice';
+import { getContentInfoByContentId,
+    update_con } from '../features/contentSlice';
 
 function UpdateContent(props){
     const [selectedCat, setSelectedCat]=useState(props.article.cat)
+    //store에서 selectedCon이 바뀌고 렌더링되어야함
     const [showMenu, setMenu]=useState(false);
     const [title, setTitle]=useState(props.article.title);
     const [content, setContent]=useState(props.article.content);
-    let history=useHistory();
+    // const cat_id=useSelector(selectedCat);
+    // const cats=useSelector(getCategories);
+    // const contentInfo = useSelector(getContentInfoByContentId());
+    // const dispatch = useDispatch();
+    const history=useHistory();
 
     const inputTitleHandler=(e)=>{
         setTitle(e.target.value);

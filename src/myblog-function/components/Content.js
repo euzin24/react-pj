@@ -12,13 +12,13 @@ function Content(props){
     const [maxCon, setMaxCon]=useState(7);
     const [selectedCon, setSelectedCon] = useState(null);
     const [articles, setArticles] = useState([
-        {id:1, cat:1, title:'제목1', content:'내용1'},
-        {id:2, cat:2, title:'제목2', content:'내용2'},
-        {id:3, cat:2, title:'제목3', content:'내용3'},
-        {id:4, cat:1, title:'제목4', content:'내용4'},
-        {id:5, cat:1, title:'제목5', content:'내용5'},
-        {id:6, cat:1, title:'제목6', content:'내용6'},
-        {id:7, cat:1, title:'제목7', content:'내용7'}
+        {id:1, cat:1, title:'*제목1', content:'*내용1'},
+        {id:2, cat:2, title:'*제목2', content:'*내용2'},
+        {id:3, cat:2, title:'*제목3', content:'*내용3'},
+        {id:4, cat:1, title:'*제목4', content:'*내용4'},
+        {id:5, cat:1, title:'*제목5', content:'*내용5'},
+        {id:6, cat:1, title:'*제목6', content:'*내용6'},
+        {id:7, cat:1, title:'*제목7', content:'*내용7'}
     ]);
 
     const getCategoryTitle=()=>{

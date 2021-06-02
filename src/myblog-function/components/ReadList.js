@@ -3,12 +3,13 @@ import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectedCat, getCategoryTitle } from '../features/categorySlice';
-import { getContentByCategoryId } from '../features/contentSlice'
+import { getContentByCategoryId,set_selected_content } from '../features/contentSlice'
 
 function ReadList(props){
     const selected_cat_id = useSelector(selectedCat);
     const selected_cat_title = useSelector(getCategoryTitle(selected_cat_id));
     const filteredContent=useSelector(getContentByCategoryId(selected_cat_id));
+    const dispatch = useDispatch();
     // let cat_title=useParams().cat_title;
     let notice=null;
 
@@ -27,7 +28,8 @@ function ReadList(props){
                         {filteredContent.map((value)=>{
                             return(
                                 <li key={value.id} onClick={()=>{
-                                    props.showContent(value.id);
+                                    // props.showContent(value.id);
+                                    dispatch(set_selected_content(value.id));
                                 }}>
                                     <Link to={'/'+selected_cat_title+'/'+value.id}>
                                         <h2>{value.title}</h2>

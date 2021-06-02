@@ -2,7 +2,8 @@ import {createSlice} from '@reduxjs/toolkit';
 import {createSelector} from 'reselect';
 
 const initialState={
-    content: [{id:1, cat:1, title:'제목1', content:'내용1'},
+    content: [
+        {id:1, cat:1, title:'제목1', content:'내용1'},
         {id:2, cat:2, title:'제목2', content:'내용2'},
         {id:3, cat:2, title:'제목3', content:'내용3'},
         {id:4, cat:1, title:'제목4', content:'내용4'},
@@ -24,25 +25,39 @@ export const contentSlice = createSlice({
                 cat:action.payload.cat,
                 title:action.payload.title,
                 content:action.payload.content});
+            state.selectedCon = state.maxContentNumber
         },
         update_con: (state, action)=>{
             console.log("update content");
         },
         delete_con: (state, action)=>{
-            state.content = state.content.filter(item=>item.id!==action.payload)
+            state.content = state.content.filter(item=>item.id!==state.selectedCon)
+            state.selectedCon = 0;
         },
+        set_selected_content: (state, action)=>{
+            state.selectedCon = Number(action.payload);
+        }
     }
 });
 
 //returning current state value
 export const selectedCon = (state) => state.rootReducer.content.selectedCon;
 export const getContent = (state) => state.rootReducer.content.content;
+export const maxContentNumber = (state)=>state.rootReducer.content.maxContentNumber;
 
 export const getContentByCategoryId = (id) => createSelector(
     getContent,
     (content)=>content.filter(item=>id? item.cat===id : item)
 )
 
-export const { create_con, update_con, delete_con, check_empty } = contentSlice.actions;
+export const getContentInfoByContentId = (id) => createSelector(
+    getContent,
+    (content)=>content.find(item=>item.id===id)
+)
+
+export const { create_con,
+    update_con,
+    delete_con,
+    set_selected_content } = contentSlice.actions;
 
 export default contentSlice.reducer;

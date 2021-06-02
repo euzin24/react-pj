@@ -16,8 +16,8 @@ import { store } from './myblog-function/store'
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
-        {/* <Myblogre></Myblogre> */}
-        <Test></Test>
+        <Myblogre></Myblogre>
+        {/* <Test></Test> */}
     </BrowserRouter>
   </Provider>
   ,
