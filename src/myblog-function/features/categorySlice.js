@@ -5,7 +5,7 @@ const initialState={
     categories: [{id:0, title:'전체'},
         {id:1, title:'카테고리1'},
         {id:2, title:'카테고리2'},
-        {id:3, title:"카테고리3"}],
+        {id:3, title:"카테고리3"},],
     selectedCat: 0,
     maxCategoryNumber: 3
 };

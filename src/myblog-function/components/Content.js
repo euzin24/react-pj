@@ -12,7 +12,7 @@ function Content(props){
         <div className="section">
             <Switch>
                 <Route exact path='/'>
-                    <div>Landing Page</div>
+                    <ReadList></ReadList>
                 </Route>
                 <Route exact path='/setting'>
                     <SetCategories></SetCategories>

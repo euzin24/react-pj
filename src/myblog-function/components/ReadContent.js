@@ -27,7 +27,7 @@ function ReadContent(props){
             temp=contentList.slice((selectedPage-1)*5, contentList.length);
             temp.forEach(element => {
                 content.push(
-                    <li key={element.id}>
+                    <li key={element.id} className="spacious">
                         <span onClick={(e)=>{
                             e.preventDefault();
                             dispatch(set_selected_content(element.id));
@@ -39,7 +39,7 @@ function ReadContent(props){
             temp=contentList.slice((selectedPage-1)*5, selectedPage*5);
             temp.forEach(element => {
                 content.push(
-                    <li key={element.id}>
+                    <li key={element.id} className="spacious">
                         <span onClick={(e)=>{
                             e.preventDefault();
                             dispatch(set_selected_content(element.id));
@@ -58,8 +58,7 @@ function ReadContent(props){
     }
 
     const nextBtnControl=()=>{
-        if((selectedPage*5)>=parseInt(contentList.length)){
-            return true;}
+        if((selectedPage*5)>=parseInt(contentList.length)){return true;}
         else{return false;}
     }
     
@@ -73,20 +72,29 @@ function ReadContent(props){
         }
     }
     
-    // const contentInfo =
-    //     selectedContentId ? 
-    //     contentList.find(item=>item.id===selectedContentId)
-    //     :
-    //     {title:null, content:null}
+    const showPage = (e) =>{
+        if (e.target.name==='btn-next'){
+            setSelectedPage(selectedPage+1);
+        }
+        else if (e.target.name==='btn-prev'){
+            setSelectedPage(selectedPage-1);
+        }
+    }
     
     return(
         <div className="content">
-            <h2>{contentInfo.title}</h2>
+            <h2>
+                {contentInfo.title}
+                <span style={{float: "right"}}>
+                    <button>
+                        <Link to={`/update/${selectedContentId}`}
+                        className="black">수정</Link>
+                    </button>
+                    <button onClick={deleteContent}>삭제</button>
+                </span>
+            </h2>
             <hr></hr>
             <p>{contentInfo.content}</p>
-            <hr></hr>
-            <button><Link to={`/update/${selectedContentId}`}>수정</Link></button>
-            <button onClick={deleteContent}>삭제</button>
             <hr></hr>
             <p>"{cat_title}"의 다른 게시글</p>
             
@@ -95,16 +103,12 @@ function ReadContent(props){
             </ul>
             <button 
                 disabled={prevBtnControl()}
-                onClick={(e)=>{
-                    e.preventDefault();
-                    setSelectedPage(selectedPage-1);
-                }}>이전</button>
+                name="btn-prev"
+                onClick={showPage}>이전</button>
             <button
                 disabled={nextBtnControl()}
-                onClick={(e)=>{
-                    e.preventDefault();
-                    setSelectedPage(selectedPage+1);
-                }}>다음</button>
+                name="btn-next"
+                onClick={showPage}>다음</button>
         </div>
     );
 }

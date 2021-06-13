@@ -7,7 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import App2 from './App2/App2';
 // import Myblog from './myblog-component/Myblog';
 import Myblogre from './myblog-function/Myblogre'
-import Example from './rct-rdx-template-example/App'
+// import Example from './rct-rdx-template-example/App'
 // import Test from './myblog-function/Test'
 import { Provider } from 'react-redux';
 // import { store } from './rct-rdx-template-example/app/store';

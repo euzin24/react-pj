@@ -14,33 +14,47 @@ function ReadList(props){
     let notice=null;
 
     if (filteredContent.length===0){
-        notice=<li key="#">게시글이 없습니다.</li>
+        notice=<li key="#" className="no-search">게시글이 없습니다.</li>
     }else{notice=null;}
+
+    const showPreview = (content) =>{
+        if(content.length>30){
+            return `${content.slice(0, 30)}...`
+        }
+        else{
+            return content
+        }
+    }
 
     return(
         <div className="content">
-                <ul>
-                    {selected_cat_title}
-                    <button style={{float:'right'}}>
-                        <Link to='/create'>새글쓰기</Link></button>
-                    {/* {showList()} */}
-                        {notice}
-                        {filteredContent.map((value)=>{
-                            return(
-                                <li key={value.id} onClick={()=>{
-                                    // props.showContent(value.id);
-                                    dispatch(set_selected_content(value.id));
-                                }}>
-                                    <Link to={'/'+selected_cat_title+'/'+value.id}>
-                                        <h2>{value.title}</h2>
-                                        <p>{value.content}</p>
-                                    </Link>
-                                    <hr></hr>
-                                </li>
-                            )
-                        })}
-                </ul>
-            </div>
+            <small style={{marginBottom:"2em"}}>
+                "{selected_cat_title}"의 게시글
+                <button style={{float:'right'}}>
+                    <Link to='/create' className="black">새글쓰기</Link>
+                </button>
+            </small>
+            <ul>
+            {notice}
+            {filteredContent.map((value)=>{
+                return(
+                    <div key={value.id}>
+                        <li onClick={()=>{
+                            // props.showContent(value.id);
+                            dispatch(set_selected_content(value.id));
+                            }}>
+                            <Link to={'/'+selected_cat_title+'/'+value.id}
+                                className="black">
+                                <h3>{value.title}</h3>
+                                <p>{showPreview(value.content)}</p>
+                            </Link>
+                        </li>
+                        <hr></hr>
+                    </div>
+                )
+            })}
+            </ul>
+        </div>
     );
 }
 

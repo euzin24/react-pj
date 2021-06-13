@@ -16,7 +16,7 @@ function Nav(props){
         for (let _data of data){
             _path=`/${_data.title}`;
             _list.push(
-                <li key={_data.id}>
+                <li key={_data.id} className="spacious">
                     <NavLink to={_path}>
                         <span onClick={(_id)=>{
                             // props.setSelectedCategory(_data.id);
@@ -35,17 +35,19 @@ function Nav(props){
         <div className="nav-bar">
             <header className="header">
                 <Link to='/'>
-                    <img className="profile-img" alt="logo" src={logo}></img>
+                    <img onClick={()=>{
+                        dispatch(set_selected_category(0));
+                    }} className="profile-img" alt="logo" src={logo}></img>
                 </Link>
                 <h3>Euzin24</h3>
                 <p>개발 블로그</p>
             </header>
             <nav>
                 <h4>Categories</h4>
-                <ul className="nav-cat-list">
+                <ul>
                     {showList()}
                 </ul>
-                <button className="nav-btn">
+                <button className="btn-default setting">
                     <Link to="/setting">카테고리 편집</Link>
                 </button>
             </nav>
