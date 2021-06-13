@@ -22,12 +22,13 @@ function UpdateContent(props){
     const [title, setTitle]=useState(contentInfo.title);
     const [content, setContent]=useState(contentInfo.content);
 
-    const inputTitleHandler=(e)=>{
-        setTitle(e.target.value);
-    }
-
-    const inputContentHandler=(e)=>{
-        setContent(e.target.value);
+    const inputHandler=(e)=>{
+        if(e.target.name==='title'){
+            setTitle(e.target.value);
+        }
+        else if(e.target.name==='content'){
+            setContent(e.target.value);
+        }
     }
 
     const menuForm=(e)=>{
@@ -40,7 +41,7 @@ function UpdateContent(props){
     }
     
     const showCategories=()=>{
-        var list=[];
+        let list=[];
         if(showMenu===true){
             cats.forEach(element => {
                 if(element.id===cat_id){
@@ -98,16 +99,14 @@ function UpdateContent(props){
                     <ul>
                         {showCategories()}
                     </ul> 
-                </div>                    
-                <p>
-                    <input type="text" name="title" value={title}
-                        onChange={inputTitleHandler}></input>
-                </p>
-                <p>
-                    <textarea name="content" value={content}
-                        onChange={inputContentHandler}></textarea>
-                </p>
-                <button type="submit">확인</button>
+                </div>    
+
+                <input className="title" type="text" name="title" value={title}
+                    onChange={inputHandler}></input>
+                <hr></hr>
+                <textarea className="article" name="content" value={content}
+                        onChange={inputHandler}></textarea>
+                <button style={{float:"right"}} type="submit">수정</button>
             </form>
         </div>
     );

@@ -37,7 +37,7 @@ function Nav(props){
                 <Link to='/'>
                     <img onClick={()=>{
                         dispatch(set_selected_category(0));
-                    }} className="profile-img" alt="logo" src={logo}></img>
+                    }} className="profile-img fa fa-circle" alt="logo" src={logo}></img>
                 </Link>
                 <h3>Euzin24</h3>
                 <p>개발 블로그</p>

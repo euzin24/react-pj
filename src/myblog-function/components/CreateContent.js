@@ -23,8 +23,8 @@ function CreateContent(props){
     }
 
     const showCategories=()=>{
-        var list=[];
-        if(showMenu===true){
+        let list=[];
+        if(showMenu){
             cats.forEach(element => {
                 if(element.id===cat_id){
                     list.push(
@@ -84,18 +84,18 @@ function CreateContent(props){
                 <div>
                     <h3>{getCategoryTitle()}
                         <button style={{marginLeft:'3em'}}
-                        onClick={menuForm}>카테고리 선택</button></h3>
+                            onClick={menuForm}>카테고리 선택
+                        </button>
+                    </h3>
                     <ul>
                         {showCategories()}
                     </ul> 
-                </div>                    
-                <p>
-                    <input type="text" name="title" placeholder="제목"></input>
-                </p>
-                <p>
-                    <textarea name="content" placeholder="내용..."></textarea>
-                </p>
-                <button type="submit">확인</button>
+                </div>
+           
+                <input className="title" name="title" placeholder="제목"></input>
+                <hr></hr>
+                <textarea className="article" name="content" placeholder="내용..."></textarea>
+                <button style={{float:"right"}} type="submit">글작성</button>
             </form>
         </div>
     );
